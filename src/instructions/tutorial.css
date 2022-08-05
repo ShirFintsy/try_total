@@ -1,0 +1,20 @@
+.tutorial-div {
+    width: 100%;
+    height: 100%;
+    font-weight: 400;
+}
+
+.tutorial-img {
+    border-style: solid;
+    border-width: 4px;
+}
+
+.nav-btn-div {
+    margin-top: 10px;
+    align-items: center;
+    align-content: center;
+}
+
+.nav-btn-div button {
+    margin: 10px    ;
+}

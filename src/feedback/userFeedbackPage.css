@@ -1,0 +1,14 @@
+.feedback-page-div {
+    text-align: left;
+}
+
+.feedback-intro-div {
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+br {
+  content: "";
+  margin: 0.8em;
+  display: block;
+}

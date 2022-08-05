@@ -1,0 +1,20 @@
+.login-page-div {
+    text-align: left;
+    width: 60%;
+    margin: auto;
+    font-size: large;
+}
+
+.login-page-div h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sv_nav {
+    text-align: center;
+    font-size: larger;
+}
+
+.sv_complete_btn {
+    float: none !important;
+}

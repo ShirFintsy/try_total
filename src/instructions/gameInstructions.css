@@ -1,0 +1,38 @@
+.about-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 140px;
+    padding-right: 140px;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.about-div button {
+    width: fit-content;
+    background-color: #1ab394;
+    border: #1ab394;
+}
+
+.instruction-passage {
+    line-height: 1.7;
+}
+
+.quiz-div {
+    text-align: left;
+}
+
+.passed-div {
+    position: absolute;
+    margin: auto;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 30%;
+    font-weight: 300;
+    font-size: x-large;
+}
+
+.passed-div button {
+    margin-top: 20px;
+}

@@ -1,0 +1,19 @@
+.intro-div {
+    margin: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-weight: 400;
+    font-size: 17px;
+}
+
+br {
+  content: "";
+  margin: 2em;
+  display: block;
+  font-size: 24%;
+}
+
+.consent-form-btn {
+    margin: 5px;
+    border-radius: 25px;
+}
