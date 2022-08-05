@@ -25,34 +25,30 @@ function GameInstructions() {
       <h2 className={"app-heading-h2"} style={{"marginBottom": "20px"}}>About our experiment</h2>
       <p className={"instruction-passage"} hidden={partIdx !== 0}>
         <h5 style={{"color": "#db1111"}}>Please take good care, there will be an attention quiz later on!</h5>
-        We'll ask you to classify dogs and cats pictures.
-        At any given stage you will receive a picture of a dog or a cat - and you will need to press on the button with
-        the correct classification according to your best judgement. <br/>
-        Your goal is to classify correctly as many images as possible in 7 minutes. Your bonus in this HIT will be
-        calculated as one penny for each five properly classified pictures, meaning that the
-        <strong> more correct classifications you accumulate, the greater is your bonus!</strong>
-        <br/>
+        Your task is to classify dogs and cats pictures. At any given stage you will receive a picture of a dog or a cat
+        - and you will need to press the button with the correct classification according to your best judgement.
+        Your goal is to classify correctly as many images as possible in 7 minutes.
+        While you are answering this quiz, a robot is programed to answer this quiz too, but there is no competition
+          between you two.
+         The robot job ????
+        {/*<strong> more correct classifications you accumulate, the greater is your bonus!</strong>*/}
+        
       </p>
       <p className={"instruction-passage"} hidden={partIdx !== 1}><span
         style={{"fontWeight": "bold", "fontSize": "calc(1.2rem + .5vw)", "color": "red"}}>Notice! &nbsp;</span>
-        From time to time we experience some errors loading the pictures. When this happens you won't be able to
-        continue tagging the pictures and earning further bonus. <br/>Lucky for you, we have a virtual helper (“ViPer”)
-        who
-        is responsible for solving these problems! <br/>When you will get an error, a request for help will be sent
-        to ViPer. Unfortunately you are sharing the ViPer with another two players participating in your session, and
-        <strong> ViPer can help only one player at a time</strong>, so when helping someone else you will have to wait for him to reach
-        your
-        request. ViPer schedules the incoming requests for help and it takes a constant time of <strong>8 seconds </strong>
-        to handle a single request. <br/>
+        From time to time the robot will probably have trouble identify if the picture present a dog or a cat. When
+          it occurs, the robot will ask for help.
+        <strong> Please note that the robot is not able to continue the quiz without help. </strong>
+
       </p>
       <p className={"instruction-passage"} hidden={partIdx !== 2}>
-        Our motive in this experiment is to examine different methods of scheduling. Eventually we wish to find a
-        generic scheduling algorithm that would maximize the aggregated users’ satisfaction.<br/> In this game,
-        <strong> the scheduling process includes choosing the order of handling the incoming help requests coming from
-          the players. </strong> ViPer is using a randomly chosen scheduling algorithm out of two options, and with this
-        algorithm he decides who he is going to take care of next. <br/>After the game ends, we would like you to give
-        us your honest opinion about the ViPer’s scheduling process.
-        <br/><span><strong>Please don't refresh the page at any stage till the end of the experiment. </strong>
+        Our long-term goal is to come up with a way that robots can ask for help and humans will assist them in cases
+        they can't fix by themself. For example, how to get somewhere, or use human intelligent. For that sake, we need
+        to check at first the amount of people who want to help a robot. Eventually we wish to find a good way that a robot
+         will definitely get help from people when required.
+        <span>  After the task will end, we would like you to give us your honest opinion about what tou thought during
+          the quiz.</span>
+        <span><strong>Please don't refresh the page at any stage till the end of the task. </strong>
         Refreshing the page will terminate your session in the experiment, and you will not able to proceed and get paid.</span>
       </p>
       <div className={"nav-btn-div"}>
