@@ -1,4 +1,4 @@
-import './gamePage.css'
+import HelpRequest from './gamePage.css'
 import Button from 'react-bootstrap/Button';
 import React, {useContext, useState, useEffect} from 'react';
 import {CountdownCircleTimer} from 'react-countdown-circle-timer';
@@ -7,6 +7,7 @@ import {SessionContext, WebSocketContext} from "../utils/sessions";
 import {Link} from "react-router-dom";
 import useSound from "use-sound";
 import {throwOutFromExperiment} from "../utils/generalUtils";
+import './helpRequest'
 
 
 function GamePage() {
@@ -20,15 +21,18 @@ function GamePage() {
   const [score, setScore] = useState(0);
   const [virtualHelperAway, setVirtualHelperAway] = useState(false);
   const [waitForImage, setWaitForImage] = useState(false);
-  const [needsHelp, setHelpRequest] = useState(true); // true for debug - change for false
+  const [needsHelp, setHelpRequest] = useState(false);
 
   useEffect(() => {
-    let rand = Math.random() * 1000 + 20000;
+    let rand = Math.floor(Math.random() * 11) * 30000; {/* 1,000 is 1 second. rand is a number between 1/2 minute to 5 minutes */}
+    //console.log(rand);
     const reqTimer = setTimeout(() => {
       if (!needsHelp) {
         setHelpRequest(true);
+         console.log("need help:- in use effect:" + needsHelp);
+        //setNumOfHelp(true);
       }
-    }, rand);
+    }, 15000); // debug- to chang to rand
   })
 
   const [play_right_sound] = useSound('/sounds/right.mp3');
@@ -112,11 +116,13 @@ function GamePage() {
     setHelpRequest(false);
     if (answer === "Yes") {
       //2. set the component of help request
+
     } else {
       //2. set timer to ask again
       setTimeout(() => {
         // add a second request
-      }, 15000)
+        console.log("need help:- in no:" + needsHelp);
+      }, 15000);
     }
   }
 
@@ -148,12 +154,18 @@ function GamePage() {
 
                     {needsHelp ?
                         <div>
+                          {/*{firstHelp ?*/}
+                          {/*   <div className={"asked-for-help"}>I need help. Can you help me?</div> :*/}
+                          {/*    <div className={"asked-for-help"}>I'm stuck... Please help me </div>}*/}
                           <div className={"asked-for-help"}>I need help. Can you help me?</div>
-                          <Button className={"did-help"} onClick={() => onHelpAnswer("Yes")}>Yes</Button>
-                          <Button className={"didnt-help"} onClick={() => onHelpAnswer("No")}>No</Button>
+                          <Button style={{"backgroundColor": "#1ab394", "borderColor": "#1ab394"}}
+                            className={"did-help"} onClick={() => onHelpAnswer("Yes")}> Yes </Button>
+                          <Button style={{"backgroundColor": "#1ab394", "borderColor": "#1ab394"}}
+                            className={"didnt-help"} onClick={() => onHelpAnswer("No")}> No </Button>
                         </div> :
-                        <div> The robot is runnig too {/* need to change this sentence to picture and other sentence */}</div>
+                        <div> The robot is running too {/* need to change this sentence to picture and other sentence */}</div>
                     }
+                    <HelpRequest imgSrc={imageSrc} waitForImage={waitForImage} needsHelp={needsHelp}/>
                   </div>
                   {/*{virtualHelperAway ?*/}
                   {/*  <span style={{"color": "brown"}}>ViPer is away</span>*/}
