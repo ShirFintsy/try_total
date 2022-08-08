@@ -20,6 +20,16 @@ function GamePage() {
   const [score, setScore] = useState(0);
   const [virtualHelperAway, setVirtualHelperAway] = useState(false);
   const [waitForImage, setWaitForImage] = useState(false);
+  const [needsHelp, setHelpRequest] = useState(true); // true for debug - change for false
+
+  useEffect(() => {
+    let rand = Math.random() * 1000 + 20000;
+    const reqTimer = setTimeout(() => {
+      if (!needsHelp) {
+        setHelpRequest(true);
+      }
+    }, rand);
+  })
 
   const [play_right_sound] = useSound('/sounds/right.mp3');
   const [play_wrong_sound] = useSound('/sounds/wrong.mp3')
@@ -97,6 +107,19 @@ function GamePage() {
     setTimeout(() => setWaitForImage(false), 3000);
   }
 
+  const onHelpAnswer = (answer) => {
+    //1. remove the help request - change the needsHelp value
+    setHelpRequest(false);
+    if (answer === "Yes") {
+      //2. set the component of help request
+    } else {
+      //2. set timer to ask again
+      setTimeout(() => {
+        // add a second request
+      }, 15000)
+    }
+  }
+
 
   return (
     <div>
@@ -109,6 +132,7 @@ function GamePage() {
                                       colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000', 0.33]]}
                                       onComplete={onCompleteGame}
                 >
+                  {/*show the time that left: */}
                   {({remainingTime}) => {
                     const minutes = Math.floor(remainingTime / 60)
                     const seconds = remainingTime % 60
@@ -119,25 +143,38 @@ function GamePage() {
               <div className={"score-div"}>Correct answers: {score}</div>
               <div className={"participants-view-div"}>
                 <div className={"virtual-player-status-div"}>
-                  {virtualHelperAway ?
-                    <span style={{"color": "brown"}}>ViPer is away</span>
-                    : (
-                      <span>
-                        {playerGetHelp ?
-                          <span style={{"color": "green"}}>ViPer is helping {playerGetHelp}</span> :
-                          <span style={{"color": "green"}}>ViPer is available</span>
-                        }
-                        {nextPlayerGetHelp ?
-                          <div style={{"color": "green", "fontSize": "smaller"}}>next
-                            helping {nextPlayerGetHelp}</div> : ""
-                        }
-                      </span>
-                    )
-                  }
+
+                  <div className={"robot-help"}>
+
+                    {needsHelp ?
+                        <div>
+                          <div className={"asked-for-help"}>I need help. Can you help me?</div>
+                          <Button className={"did-help"} onClick={() => onHelpAnswer("Yes")}>Yes</Button>
+                          <Button className={"didnt-help"} onClick={() => onHelpAnswer("No")}>No</Button>
+                        </div> :
+                        <div> The robot is runnig too {/* need to change this sentence to picture and other sentence */}</div>
+                    }
+                  </div>
+                  {/*{virtualHelperAway ?*/}
+                  {/*  <span style={{"color": "brown"}}>ViPer is away</span>*/}
+                  {/*  : (*/}
+                  {/*    <span>*/}
+                  {/*      {playerGetHelp ?*/}
+                  {/*        <span style={{"color": "green"}}>ViPer is helping {playerGetHelp}</span> :*/}
+                  {/*        <span style={{"color": "green"}}>ViPer is available</span>*/}
+                  {/*      }*/}
+                  {/*      {nextPlayerGetHelp ?*/}
+                  {/*        <div style={{"color": "green", "fontSize": "smaller"}}>next*/}
+                  {/*          helping {nextPlayerGetHelp}</div> : ""*/}
+                  {/*      }*/}
+                  {/*    </span>*/}
+                  {/*  )*/}
+                  {/*}*/}
                 </div>
-                <ParticipantsView players={players} thisPlayer={playerName}
-                                  playerGettingHelp={playerGetHelp}
-                                  blockedPlayers={blockedPlayers}/>
+                {/* the participant view is the names in the side */}
+                {/*<ParticipantsView players={players} thisPlayer={playerName}*/}
+                {/*                  playerGettingHelp={playerGetHelp}*/}
+                {/*                  blockedPlayers={blockedPlayers}/>*/}
               </div>
             </div>
             <div className={"cls-page-col-1"}>
@@ -167,6 +204,7 @@ function GamePage() {
                 </div>
               }
             </div>
+            {/* end of 7 minute: */}
           </div> :
           <div className={"complete-game-div"}>Complete Game <br/>You got {score} correct classifications!
             <br/> Please continue to the final part of the experiment and you will receive your bonus shortly
