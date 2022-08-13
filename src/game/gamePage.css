@@ -88,6 +88,12 @@
     animation: spin 2s linear infinite;
     margin: 10px auto auto;
 }
+.help-button {
+    border-color: #1ab394;
+    background-color: #1ab394;
+    color: #1ab394;
+    margin-right: 20px;
+}
 
 @keyframes spin {
     0% {

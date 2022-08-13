@@ -13,10 +13,9 @@ function AwarenessQuiz() {
 
   const correctAnswers = {
     "Q1": "You will get no payment",
-    "Q2": "It's known issue and part of the game, you need to wait until the problem will be fixed by ViPer",
-    "Q3": "Will list your request and will get to it based on its considerations " +
-      "(taking also into account requests from the other players)",
-    "Q4": "8 seconds"
+    "Q2": "I can choose to help the robot identify the pet, ignore the request or to click no",
+    "Q3": "My quiz will be replace with the robot quiz and I will be have to identify the robot problem",
+    "Q4": "It will return to my quiz questions"
   }
 
   const quizDef = {
@@ -35,35 +34,35 @@ function AwarenessQuiz() {
       }, {
         type: "radiogroup",
         name: "Q2",
-        title: "What happens if you get the message that there is an error loading the images",
+        title: "What happens if you get the message that the robot needs help",
         isRequired: true,
         hasNone: false,
         choices: [
-          "The game doesn't work and you are allowed to leave and get full payment",
-          "You need to check your internet connection",
+          "I will ignor that",
+          "I will always click 'yes'",
           correctAnswers.Q2
         ]
       }, {
         type: "radiogroup",
         name: "Q3",
-        title: "When you get an error and needs help, the ViPer:",
+        title: "What will happen if you click on yes to the help request?",
         isRequired: true,
         hasNone: false,
         choices: [
           correctAnswers.Q3,
-          "Will handle your request immediately",
-          "Will handle your request at randomly picked time during game",
+          "My quiz will close and I will need to solve all the question of the robot",
+          "It will skip to my next question",
         ]
       }, {
         type: "radiogroup",
         name: "Q4",
-        title: "How much time it takes for the ViPer to handle a single request for help?",
+        title: "What will happen after you answer the robot quiz?",
         isRequired: true,
         hasNone: false,
         choices: [
-          "10 seconds",
+          "I will continue answering the robot quiz's question until it stops me",
           correctAnswers.Q4,
-          "7 seconds",
+          "The quiz will end",
         ]
       }
     ]

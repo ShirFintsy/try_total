@@ -18,62 +18,42 @@ function UserFeedbackPage() {
         "elements": [
           {
             type: "rating",
-            name: "satisfaction",
-            title: "How satisfied are you from the decisions made by Viper regarding which player to help in cases of conflict?",
-            minRateDescription: "Not satisfied",
-            maxRateDescription: "Completely satisfied",
+            name: "Q1",
+            title: "How would you rate your willingness to help the robot?",
+            minRateDescription: "Didn't want to help at all",
+            maxRateDescription: "Feel the need to help all the time",
             isRequired: true
           }, {
-            type: "rating",
-            name: "pay_attention_to_others",
-            title: "How much did you pay attention to ViPer helping other players? ",
-            minRateDescription: "Did not pay attention at all",
-            maxRateDescription: "Paid close attention",
-            isRequired: true
-          }
-        ]
-      }, {
-        "elements": [
-          {
-            type: "rating",
-            name: "fairness",
-            title: "How do you estimate the ViPer fairness?",
-            minRateDescription: "Not fair",
-            maxRateDescription: "Completely fair",
+            type: "comment",
+            name: "Q2",
+            title: "In case you help the robot at least once, why did you do that?",
             isRequired: true
           }, {
-            type: "rating",
-            name: "attentive_to_needs",
-            title: "How much was the ViPer attentive to your needs?",
-            minRateDescription: "Not attentive",
-            maxRateDescription: "Completely attentive",
-            isRequired: true
-          }, {
-            type: "rating",
-            name: "future_use",
-            title: "Would you like to keep using ViPer in the future?",
-            minRateDescription: "Absolutely No",
-            maxRateDescription: "Absolutely yes",
-            isRequired: true
-          }
+            type: "radiogroup",
+            name: "Q3",
+            title: "What would cause you to help the robot more?",
+            isRequired: true,
+            hasNone: false,
+            choices: [
+            "A voice help request",
+            "different wording of the help request",
+            "Present the rationale",
+              "other",
+          ]
+        }
         ]
       }, {
         "elements": [
           {
             type: "comment",
-            name: "decision_process",
-            title: "Describe the decision process of the ViPer as you experienced it. To whom he helped first? why?",
+            name: "Q4",
+            title: "If a human being was asking you for help instead of robot, do you think you would help him more? Explain",
             isRequired: true
           }, {
             type: "comment",
-            name: "suggestions_for_improvement",
-            title: "How did ViPer should have acted differently in your opinion?",
+            name: "Q5",
+            title: "In your opinion, if more people could help, do you think you would help more? Explain",
             isRequired: true
-          }, {
-            type: "comment",
-            name: "technical_issues",
-            title: "Any other thoughts or technical issues encountered?",
-            isRequired: false
           }
         ]
       }
@@ -94,9 +74,9 @@ function UserFeedbackPage() {
         kinds of virtual helpers. <br/>
         We really need you honest opinion about the helper you experienced with. Please do not try to please us –
         tell us what you really think.<br/>
-        <strong style={{"color": "#8f1919"}}>
-          We ask you to take the server errors as given, and focus only on the decisions of ViPer to help you
-          or the other two players {session.otherPlayersName[0]} and {session.otherPlayersName[1]}</strong>
+        {/*<strong style={{"color": "#8f1919"}}>*/}
+        {/*  We ask you to take the server errors as given, and focus only on the decisions of ViPer to help you*/}
+        {/*  or the other two players {session.otherPlayersName[0]} and {session.otherPlayersName[1]}</strong>*/}
       </div>
       <Survey.Survey json={json} onComplete={onComplete}/>
       <PageTimeTracker pageName="userFeedback"/>
