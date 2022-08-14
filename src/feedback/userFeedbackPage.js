@@ -31,7 +31,7 @@ function UserFeedbackPage() {
           }, {
             type: "radiogroup",
             name: "Q3",
-            title: "What would cause you to help the robot more?",
+            title: "What would influence you to help the robot more?",
             isRequired: true,
             hasNone: false,
             choices: [
@@ -52,7 +52,13 @@ function UserFeedbackPage() {
           }, {
             type: "comment",
             name: "Q5",
-            title: "In your opinion, if more people could help, do you think you would help more? Explain",
+            title: "In your opinion, if there were others that could have help robot (other than you), " +
+                "do you think you would have helped more or less? Explain",
+            isRequired: true
+          }, {
+            type: "comment",
+            name: "Q6",
+            title: "Any technical issues experienced or other thpughts?",
             isRequired: true
           }
         ]
@@ -70,10 +76,9 @@ function UserFeedbackPage() {
   return (
     <div className={"feedback-page-div"}>
       <h2>Feedback</h2>
-      <div className={"feedback-intro-div"}>This is a part of an academic research which includes examination of several
-        kinds of virtual helpers. <br/>
-        We really need you honest opinion about the helper you experienced with. Please do not try to please us –
-        tell us what you really think.<br/>
+      <div className={"feedback-intro-div"}>Thank you for taking part in the task. This task is a part of an
+        academic research. <br/>
+        We really need you honest opinion about your willingness to help the robot (or refuse to help).<br/>
         {/*<strong style={{"color": "#8f1919"}}>*/}
         {/*  We ask you to take the server errors as given, and focus only on the decisions of ViPer to help you*/}
         {/*  or the other two players {session.otherPlayersName[0]} and {session.otherPlayersName[1]}</strong>*/}

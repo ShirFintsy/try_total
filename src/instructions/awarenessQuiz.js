@@ -38,7 +38,7 @@ function AwarenessQuiz() {
         isRequired: true,
         hasNone: false,
         choices: [
-          "I will ignor that",
+          "I will ignore that",
           "I will always click 'yes'",
           correctAnswers.Q2
         ]

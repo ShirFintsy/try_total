@@ -10,34 +10,32 @@ import {throwOutFromExperiment} from "../utils/generalUtils";
 
 
 function GamePage() {
-    const [helpFirst, setHelpFirst] = useState({playerName: "", duration: 0});
-    const [players, setPlayers] = useState([]);
     const [isCompleteGame, setCompleteGame] = useState(false);
-    const [helpedPlayer, setHelpedPlayer] = useState({playerName: "", duration: ""});
-    const [nextHelpedPlayer, setNextHelpedPlayer] = useState({playerName: "", duration: 0});
     const [nonBlockedPlayersNeedHelp, setNonBlockedPlayersNeedHelp] = useState(new Set());
-    const [blockedPlayers, setBlockedPlayers] = useState(new Set());
-    const [playerGetHelp, setPlayerGetHelp] = useState(null);
-    const [nextPlayerGetHelp, setNextPlayerGetHelp] = useState(null);
     const [imageSrc, setImageSrc] = useState(null);
     const [imageTag, setImageTag] = useState(null);
     const [score, setScore] = useState(0);
-    const [virtualHelperAway, setVirtualHelperAway] = useState(false);
-    const [virtualHelperOnHisWay, setVirtualHelperOnHisWay] = useState(false);
     const [waitForImage, setWaitForImage] = useState(false);
     const [needsHelp, setHelpRequest] = useState(false);
     const [robotQuiz, setQuiz] = useState(false);
-    const [robotRunning, setRobot] = useState("The robot is running too");
+    const [robotRunning, setRobot] = useState("Robot is currently classifying pictures");
     const [wantToHelp, setWant] = useState(true);
 
     useEffect(() => {
-    let rand = Math.floor(Math.random() * 11) * 30000; {/* 1,000 is 1 second. rand is a number between 1/2 minute to 5 minutes */}
-    setTimeout(() => {
-      if (!needsHelp && !robotQuiz && wantToHelp) {
-        setHelpRequest(true);
-      }
-    }, 15000); // debug - to chang to rand
-  })
+        gameStarted();
+  }, []);
+
+    const gameStarted = () => {
+            let rand = Math.floor(Math.random() * 11) * 30000;
+            {/* 1,000 is 1 second. rand is a number between 1/2 minute to 5 minutes */
+            }
+            setTimeout(() => {
+                if (!robotQuiz && !needsHelp) {
+                    setHelpRequest(true);
+                }
+            }, 15000); // debug - to chang to rand
+    }
+
     const [play_right_sound] = useSound('/sounds/right.mp3');
     const [play_wrong_sound] = useSound('/sounds/wrong.mp3')
 
@@ -68,76 +66,6 @@ function GamePage() {
         }
     }
 
-    //     switch (data.type) {
-    //         case "set-players":
-    //             setPlayers(data.players);
-    //             const otherPlayersName = data.players.filter(p => p !== playerName);
-    //             session.otherPlayersName = otherPlayersName;
-    //             setSession(session);
-    //             break;
-    //         case "player-task":
-    //             if (data.task_type === "blocking") {
-    //                 setBlockedPlayers(new Set([...blockedPlayers, data.player]));
-    //                 if (blockedPlayers.size > 1) {
-    //
-    //                 }
-    //             }
-    //             if (data.task_type === "non-blocking")
-    //                 setNonBlockedPlayersNeedHelp(new Set([...nonBlockedPlayersNeedHelp, data.player]));
-    //             break;
-    //         case "free-player":
-    //             const newBlockedPlayers = [...blockedPlayers].filter(p => p !== data.player)
-    //             setBlockedPlayers(new Set(newBlockedPlayers));
-    //             if (data.player === playerName) {
-    //                 clearTimeout(timer);
-    //             }
-    //             const newNonBlockedPlayersNeedHelp = [...nonBlockedPlayersNeedHelp].filter(p => p !== data.player)
-    //             setNonBlockedPlayersNeedHelp(new Set(newNonBlockedPlayersNeedHelp));
-    //             setPlayerGetHelp(null);
-    //             console.log("next helped player is: " + nonBlockedPlayersNeedHelp.size);
-    //             if (nonBlockedPlayersNeedHelp.size === 0) {
-    //                 //if none of the players is blocked, send the ViPer away.
-    //                 setNextHelpedPlayer(null);
-    //             }
-    //             if (blockedPlayers.size === 0) {
-    //                 setVirtualHelperAway(true);
-    //
-    //             }
-    //             console.log("Freed player:" + data.player)
-    //             console.log("number of blocked players need help: " + nonBlockedPlayersNeedHelp.size)
-    //             break;
-    //         case "player-get-help":
-    //             setHelpedPlayer({'playerName': data.player, 'duration': data.duration});
-    //             setPlayerGetHelp(data.player);
-    //             break;
-    //         case "next-player-get-help":
-    //             setNextPlayerGetHelp(data.player);
-    //             setNextHelpedPlayer({'playerName': data.player, 'duration': data.duration});
-    //             break;
-    //         case "get-image":
-    //             setImageSrc("data:image/png;base64, " + data.image);
-    //             setImageTag(data.tag);
-    //             break;
-    //         case "virtual-helper-away":
-    //             setVirtualHelperAway(true);
-    //             setVirtualHelperOnHisWay(false);
-    //             break;
-    //         case "virtual-helper-back":
-    //             setVirtualHelperAway(false);
-    //             setVirtualHelperOnHisWay(false);
-    //             break;
-    //         case "viper_about_to_help":
-    //             console.log(blockedPlayers.size)
-    //             if (blockedPlayers.size === 2) {
-    //                 setVirtualHelperOnHisWay(true);
-    //                 setHelpFirst({'playerName': data.player, 'duration': data.duration});
-    //             }
-    //         default:
-    //             console.error("Unsupported Event");
-    //     }
-    // }
-    // ;
-
     const onCompleteGame = () => {
         websocket.send(JSON.stringify({"action": "complete-game", "session": session}));
         setCompleteGame(true);
@@ -146,7 +74,7 @@ function GamePage() {
     const afterHelp = () => {
         return new Promise(() => {
             setRobot("Thank You!")
-            setTimeout(() => setRobot("The robot is running too"), 5000);
+            setTimeout(() => setRobot("Robot is currently classifying pictures"), 5000);
         })
     }
 
@@ -171,19 +99,25 @@ function GamePage() {
         timer = setTimeout(() => setWaitForImage(false), millisecondsToNextImage);
     }
 
-    const onHelpAnswer = (answer) => {
+    const onYesAnswer = () => {
+        return new Promise (() => {
+            setHelpRequest(false);
+            setQuiz(true);
+        })
+    }
+
+    const onHelpAnswer = async (answer) => {
         if (answer === "Yes") {
             setHelpRequest(false);
             setQuiz(true);
+            setRobot("");
         } else {
-            setWant(false);
             setHelpRequest(false);
-            setRobot("I need help");
+            setRobot("Please I'm stuck");
             // set timer to ask again
-            // setTimeout(() => {
-            //     // add a second request
-            //
-            // }, 15000);
+            setTimeout(() => {
+                setHelpRequest(true);
+            }, 5000);
         }
     }
 
