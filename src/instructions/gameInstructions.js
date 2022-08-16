@@ -26,16 +26,16 @@ function GameInstructions() {
       <p className={"instruction-passage"} hidden={partIdx !== 0}>
         <h5 style={{"color": "#db1111"}}>Please take good care, -there will be an attention quiz later on!</h5>
         Your task is to correctly classify dogs and cats pictures in 7 minutes. At any given stage you will receive a
-          picture and you will need to press the button with the correct classification according to your best judgement.
-      <strong>THE NUMBER OF CORRECT CLASSIFICATIONS YOU HAVE MADE WILL DETERMINE YOUR BONUS IN THIS TASK.</strong>
+          picture and you will need to press the button with the correct classification according to your best judgement.<br/>
+      <strong>THE NUMBER OF CORRECT CLASSIFICATIONS YOU HAVE MADE WILL DETERMINE YOUR BONUS IN THIS TASK. </strong>
         To enrich our pile of annotated pictures, we also have a robot working on the same task in parallel
-          (classifying a different set of pictures).
+          (classifying a different set of pictures).<br/>
           <span
         style={{"fontWeight": "bold", "fontSize": "calc(1.2rem + .5vw)", "color": "red"}}> Notice! &nbsp;</span>
         From time to time the robot will probably have trouble correctly identifying if it is a dog or a cat in its
           picture. When this occurs, the robot might ask for your help. It is up to you decide if you want to help
           the robot (as the clock is ticking and while helping you cannot progress with your own classification task).
-        <strong> Please note that the robot is not able to continue the quiz without help. </strong>
+
         
       </p>
       {/*<p className={"instruction-passage"} hidden={partIdx !== 1}>*/}

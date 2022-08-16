@@ -13,9 +13,9 @@ function AwarenessQuiz() {
 
   const correctAnswers = {
     "Q1": "You will get no payment",
-    "Q2": "I can choose to help the robot identify the pet, ignore the request or to click no",
-    "Q3": "My quiz will be replace with the robot quiz and I will be have to identify the robot problem",
-    "Q4": "It will return to my quiz questions"
+    "Q2": "I can choose to help the robot (click 'yes) or not (click 'no' or ignore)",
+    "Q3": "The robot's current picture will be displayed and I will need to classify it (dog or cat), then return to " +
+        "my own task"
   }
 
   const quizDef = {
@@ -34,7 +34,7 @@ function AwarenessQuiz() {
       }, {
         type: "radiogroup",
         name: "Q2",
-        title: "What happens if you get the message that the robot needs help",
+        title: "What happens if you get the message that the robot needs help?",
         isRequired: true,
         hasNone: false,
         choices: [
@@ -45,24 +45,13 @@ function AwarenessQuiz() {
       }, {
         type: "radiogroup",
         name: "Q3",
-        title: "What will happen if you click on yes to the help request?",
+        title: "What will happens if you click on 'yes' to the help the robot?",
         isRequired: true,
         hasNone: false,
         choices: [
           correctAnswers.Q3,
-          "My quiz will close and I will need to solve all the question of the robot",
-          "It will skip to my next question",
-        ]
-      }, {
-        type: "radiogroup",
-        name: "Q4",
-        title: "What will happen after you answer the robot quiz?",
-        isRequired: true,
-        hasNone: false,
-        choices: [
-          "I will continue answering the robot quiz's question until it stops me",
-          correctAnswers.Q4,
-          "The quiz will end",
+          "I'll need to replace the robot in its task for good",
+          "It will skip to my next picture",
         ]
       }
     ]

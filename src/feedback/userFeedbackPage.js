@@ -1,13 +1,17 @@
 import * as Survey from "survey-react";
 import "survey-react/survey.css";
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {SessionContext, WebSocketContext} from "../utils/sessions";
 import "./userFeedbackPage.css";
 import PageTimeTracker from "../utils/pageTimeTracker";
+import Finish from "./finish";
+import {BrowserRouter, Link, Route} from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 function UserFeedbackPage() {
   const websocket = useContext(WebSocketContext);
   const {session,} = useContext(SessionContext);
+  const [feedback, finishedFeedback] = useState(true);
 
   const json = {
     showProgressBar: "bottom",
@@ -71,6 +75,7 @@ function UserFeedbackPage() {
     websocket.send(JSON.stringify({"action": "feedback", "session": session, "feedback": survey.data}));
     websocket.close();
     window.location.href = "https://app.prolific.co/submissions/complete?cc=71029DA9";
+
   }
 
   return (
@@ -79,9 +84,7 @@ function UserFeedbackPage() {
       <div className={"feedback-intro-div"}>Thank you for taking part in the task. This task is a part of an
         academic research. <br/>
         We really need you honest opinion about your willingness to help the robot (or refuse to help).<br/>
-        {/*<strong style={{"color": "#8f1919"}}>*/}
-        {/*  We ask you to take the server errors as given, and focus only on the decisions of ViPer to help you*/}
-        {/*  or the other two players {session.otherPlayersName[0]} and {session.otherPlayersName[1]}</strong>*/}
+        After completion this part you will get your payment and bonus.
       </div>
       <Survey.Survey json={json} onComplete={onComplete}/>
       <PageTimeTracker pageName="userFeedback"/>

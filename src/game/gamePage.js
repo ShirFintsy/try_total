@@ -26,14 +26,15 @@ function GamePage() {
   }, []);
 
     const gameStarted = () => {
-            let rand = Math.floor(Math.random() * 11) * 30000;
-            {/* 1,000 is 1 second. rand is a number between 1/2 minute to 5 minutes */
+        let rand = Math.floor(Math.random() * 11) * 30000;
+        {/* 1,000 is 1 second. rand is a number between 1/2 minute to 5 minutes */
+        }
+        setTimeout(() => {
+            if (!robotQuiz && !needsHelp) {
+                setHelpRequest(true);
             }
-            setTimeout(() => {
-                if (!robotQuiz && !needsHelp) {
-                    setHelpRequest(true);
-                }
             }, 15000); // debug - to chang to rand
+
     }
 
     const [play_right_sound] = useSound('/sounds/right.mp3');
@@ -121,6 +122,11 @@ function GamePage() {
         }
     }
 
+    const getBonus = () => {
+        let bonus = (score / 30) * 0.2 ;{/* for every 30 point we get 0.2 dollars */}
+        bonus.toFixed(2);
+        return bonus;
+    }
 
     return (
         <div>
@@ -168,7 +174,7 @@ function GamePage() {
                                     <div>
                                         <h1>The Robot Quiz</h1>
                                         <h2>Please classify the following image</h2>
-                                        <div>
+                                        <div className={"robot-quiz"}>
                                             <img className={"img-to-cls"} src={imageSrc} alt="pet"/>
                                             <div>
                                                 <Button style={{
@@ -222,8 +228,8 @@ function GamePage() {
                     </div> :
                     <div className={"complete-game-div"}>Complete Game <br/>You got {score} correct classifications!
                         <br/> Please continue to the final part of the experiment and you will receive your bonus
-                        shortly
-                        <div><Link to={'/feedback'}><Button
+                        shortly. <br/> Your bonus is {getBonus().toFixed(2)} $.
+                        <div><Link to={'/feedback'} ><Button
                             style={{"backgroundColor": "#1ab394", "borderColor": "#1ab394"}}>Next</Button></Link>
                         </div>
                     </div>
