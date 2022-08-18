@@ -2,7 +2,6 @@ import './gamePage.css'
 import Button from 'react-bootstrap/Button';
 import React, {useContext, useState, useEffect} from 'react';
 import {CountdownCircleTimer} from 'react-countdown-circle-timer';
-import ParticipantsView from "./participantsView";
 import {SessionContext, WebSocketContext} from "../utils/sessions";
 import {Link} from "react-router-dom";
 import useSound from "use-sound";
@@ -14,28 +13,25 @@ function GamePage() {
     const [nonBlockedPlayersNeedHelp, setNonBlockedPlayersNeedHelp] = useState(new Set());
     const [imageSrc, setImageSrc] = useState(null);
     const [imageTag, setImageTag] = useState(null);
+    const [botImageSrc, setBotImageSrc] = useState(null);
     const [score, setScore] = useState(0);
     const [waitForImage, setWaitForImage] = useState(false);
     const [needsHelp, setHelpRequest] = useState(false);
     const [robotQuiz, setQuiz] = useState(false);
     const [robotRunning, setRobot] = useState("Robot is currently classifying pictures");
-    const [wantToHelp, setWant] = useState(true);
+    const [flag, setFlag] = useState("");
+    const [count, setCount] = useState(0);
+    const [clickedYes, addClickYes] = useState(0);
 
     useEffect(() => {
-        gameStarted();
-  }, []);
-
-    const gameStarted = () => {
-        let rand = Math.floor(Math.random() * 11) * 30000;
-        {/* 1,000 is 1 second. rand is a number between 1/2 minute to 5 minutes */
-        }
-        setTimeout(() => {
-            if (!robotQuiz && !needsHelp) {
-                setHelpRequest(true);
-            }
-            }, 15000); // debug - to chang to rand
-
-    }
+        let time = [50000, 50000, 30000, 75000, 90000];
+           setTimeout(() => {
+                if (!robotQuiz && !needsHelp) {
+                    setHelpRequest(true);
+                    setCount(count + 1);
+                }
+            }, time[count]);
+  }, [flag]);
 
     const [play_right_sound] = useSound('/sounds/right.mp3');
     const [play_wrong_sound] = useSound('/sounds/wrong.mp3')
@@ -65,16 +61,26 @@ function GamePage() {
             setImageSrc("data:image/png;base64, " + data.image);
             setImageTag(data.tag);
         }
+        else if(data.type === "get-bot-image") {
+            setBotImageSrc("data:image/png;base64, " + data.image);
+        }
     }
 
     const onCompleteGame = () => {
-        websocket.send(JSON.stringify({"action": "complete-game", "session": session}));
+        websocket.send(JSON.stringify({"action": "complete-game", "session": session, "yes": clickedYes}));
         setCompleteGame(true);
     };
 
     const afterHelp = () => {
         return new Promise(() => {
             setRobot("Thank You!")
+
+            if (flag===""){ // for rerender useEffect
+                setFlag("   ");
+            } else {
+                setFlag("");
+            }
+
             setTimeout(() => setRobot("Robot is currently classifying pictures"), 5000);
         })
     }
@@ -100,18 +106,14 @@ function GamePage() {
         timer = setTimeout(() => setWaitForImage(false), millisecondsToNextImage);
     }
 
-    const onYesAnswer = () => {
-        return new Promise (() => {
-            setHelpRequest(false);
-            setQuiz(true);
-        })
-    }
 
     const onHelpAnswer = async (answer) => {
         if (answer === "Yes") {
             setHelpRequest(false);
             setQuiz(true);
             setRobot("");
+            addClickYes(clickedYes+1);
+            websocket.send(JSON.stringify({"action": "get-bot-image", "session": session}));
         } else {
             setHelpRequest(false);
             setRobot("Please I'm stuck");
@@ -159,6 +161,7 @@ function GamePage() {
                                         </div> :
                                         <div>
                                             <div> {robotRunning} </div>
+                                            <div> {flag}</div>
                                             <img src={"radio-bot-animated.gif"} alt={"robot-pic"}/>
                                         </div>
                                     }
@@ -171,11 +174,11 @@ function GamePage() {
                         <div className={"cls-page-col-1"}>
                             <div>
                                 {robotQuiz ?
-                                    <div>
+                                    <div className={"robot-quiz"}>
                                         <h1>The Robot Quiz</h1>
                                         <h2>Please classify the following image</h2>
-                                        <div className={"robot-quiz"}>
-                                            <img className={"img-to-cls"} src={imageSrc} alt="pet"/>
+                                        <div>
+                                            <img className={"img-to-cls"} src={botImageSrc} alt="pet"/>
                                             <div>
                                                 <Button style={{
                                                     "backgroundColor": "sandybrown",
@@ -197,11 +200,11 @@ function GamePage() {
                                         <h1>Please classify the following image</h1>
                                         <div style={{"color": "red", "lineHeight": "0.2"}} className={"error-div"}
                                              hidden={!nonBlockedPlayersNeedHelp.has(playerName)}>
-                                            There is a latency in loading images
-                                            <img className={"td-item"} src={"red-snail-icon.png"} alt={"red-snail"}
-                                                 width={"30px"}
-                                                 height={"30px"}/>
-                                            <br/>ViPer will take care of that!
+                                            {/*There is a latency in loading images*/}
+                                            {/*<img className={"td-item"} src={"red-snail-icon.png"} alt={"red-snail"}*/}
+                                            {/*     width={"30px"}*/}
+                                            {/*     height={"30px"}/>*/}
+                                            {/*<br/>ViPer will take care of that!*/}
                                         </div>
                                         <div>
                                             <img className={"img-to-cls"} src={imageSrc} alt="pet"/>
@@ -226,7 +229,8 @@ function GamePage() {
                             </div>
                         </div>
                     </div> :
-                    <div className={"complete-game-div"}>Complete Game <br/>You got {score} correct classifications!
+                    <div className={"complete-game-div"}><strong>Complete Game <br/>You got {score} correct
+                        classifications!</strong>
                         <br/> Please continue to the final part of the experiment and you will receive your bonus
                         shortly. <br/> Your bonus is {getBonus().toFixed(2)} $.
                         <div><Link to={'/feedback'} ><Button

@@ -4,14 +4,11 @@ import React, {useContext, useState} from "react";
 import {SessionContext, WebSocketContext} from "../utils/sessions";
 import "./userFeedbackPage.css";
 import PageTimeTracker from "../utils/pageTimeTracker";
-import Finish from "./finish";
-import {BrowserRouter, Link, Route} from "react-router-dom";
-import Button from "react-bootstrap/Button";
+
 
 function UserFeedbackPage() {
   const websocket = useContext(WebSocketContext);
   const {session,} = useContext(SessionContext);
-  const [feedback, finishedFeedback] = useState(true);
 
   const json = {
     showProgressBar: "bottom",

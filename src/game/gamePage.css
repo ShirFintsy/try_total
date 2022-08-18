@@ -95,7 +95,10 @@
     margin-right: 20px;
 }
 .robot-quiz {
-
+    border-style: solid;
+    border-width: 4px;
+    width: 70%;
+    margin-left: 15%;
 }
 
 @keyframes spin {
