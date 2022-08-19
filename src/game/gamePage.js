@@ -30,7 +30,7 @@ function GamePage() {
                     setHelpRequest(true);
                     setCount(count + 1);
                 }
-            }, time[count]);
+            }, time[count % 5]);
   }, [flag]);
 
     const [play_right_sound] = useSound('/sounds/right.mp3');
@@ -54,6 +54,11 @@ function GamePage() {
         websocket.send(JSON.stringify({"action": "update-score", "score": score, "session": session}));
     }, [score, websocket, session]);
 
+        useEffect(() => {
+        websocket.send(JSON.stringify({"action": "update-click-counter", "yes": clickedYes, "session": session}));
+    }, [clickedYes, websocket, session]);
+
+
 
     websocket.onmessage = function (event) {
         const data = JSON.parse(event.data);
@@ -67,7 +72,7 @@ function GamePage() {
     }
 
     const onCompleteGame = () => {
-        websocket.send(JSON.stringify({"action": "complete-game", "session": session, "yes": clickedYes}));
+        websocket.send(JSON.stringify({"action": "complete-game", "session": session}));
         setCompleteGame(true);
     };
 
@@ -112,7 +117,8 @@ function GamePage() {
             setHelpRequest(false);
             setQuiz(true);
             setRobot("");
-            addClickYes(clickedYes+1);
+            addClickYes(clickedYes + 1);
+            console.log(clickedYes);
             websocket.send(JSON.stringify({"action": "get-bot-image", "session": session}));
         } else {
             setHelpRequest(false);
@@ -125,7 +131,7 @@ function GamePage() {
     }
 
     const getBonus = () => {
-        let bonus = (score / 30) * 0.2 ;{/* for every 30 point we get 0.2 dollars */}
+        let bonus = score  * 0.003 ;
         bonus.toFixed(2);
         return bonus;
     }
@@ -233,7 +239,7 @@ function GamePage() {
                         classifications!</strong>
                         <br/> Please continue to the final part of the experiment and you will receive your bonus
                         shortly. <br/> Your bonus is {getBonus().toFixed(2)} $.
-                        <div><Link to={'/feedback'} ><Button
+                        <div><Link to={'/feedback'} ><Button onClick={onCompleteGame}
                             style={{"backgroundColor": "#1ab394", "borderColor": "#1ab394"}}>Next</Button></Link>
                         </div>
                     </div>
