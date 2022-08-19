@@ -131,7 +131,7 @@ function GamePage() {
     }
 
     const getBonus = () => {
-        let bonus = score  * 0.003 ;
+        let bonus = score  * 0.003;
         bonus.toFixed(2);
         return bonus;
     }
