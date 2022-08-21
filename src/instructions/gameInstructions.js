@@ -35,8 +35,7 @@ function GameInstructions() {
         From time to time the robot will probably have trouble correctly identifying if it is a dog or a cat in its
           picture. When this occurs, the robot might ask for your help. It is up to you decide if you want to help
           the robot (as the clock is ticking and while helping you cannot progress with your own classification task).
-
-        
+          You will not get score for identify the robot's pictures.
       </p>
       {/*<p className={"instruction-passage"} hidden={partIdx !== 1}>*/}
 

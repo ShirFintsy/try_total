@@ -50,6 +50,11 @@
 .score-div {
     margin-bottom: 30px;
     font-weight: 350;
+    font-size: 40px;
+}
+.answers-left {
+    margin-bottom: 30px;
+    font-weight: 350;
     font-size: 25px;
 }
 

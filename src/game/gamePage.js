@@ -33,6 +33,12 @@ function GamePage() {
             }, time[count % 5]);
   }, [flag]);
 
+    useEffect(() => {
+        if(score === 150){
+            onCompleteGame();
+        }
+    }, [score]);
+
     const [play_right_sound] = useSound('/sounds/right.mp3');
     const [play_wrong_sound] = useSound('/sounds/wrong.mp3')
 
@@ -130,12 +136,6 @@ function GamePage() {
         }
     }
 
-    const getBonus = () => {
-        let bonus = score  * 0.003;
-        bonus.toFixed(2);
-        return bonus;
-    }
-
     return (
         <div>
             {
@@ -143,18 +143,19 @@ function GamePage() {
                     <div className={"cls-page"}>
                         <div className={"cls-page-col-2"}>
                             <div className={"countdown-timer"}>
-                                <CountdownCircleTimer isPlaying duration={gameDurationSec} size={100}
-                                                      colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000', 0.33]]}
-                                                      onComplete={onCompleteGame}
-                                >
-                                    {({remainingTime}) => {
-                                        const minutes = Math.floor(remainingTime / 60)
-                                        const seconds = remainingTime % 60
-                                        return `${minutes}:${seconds}`
-                                    }}
-                                </CountdownCircleTimer>
+                                {/*<CountdownCircleTimer isPlaying duration={gameDurationSec} size={100}*/}
+                                {/*                      colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000', 0.33]]}*/}
+                                {/*                      onComplete={onCompleteGame}*/}
+                                {/*>*/}
+                                {/*    {({remainingTime}) => {*/}
+                                {/*        const minutes = Math.floor(remainingTime / 60)*/}
+                                {/*        const seconds = remainingTime % 60*/}
+                                {/*        return `${minutes}:${seconds}`*/}
+                                {/*    }}*/}
+                                {/*</CountdownCircleTimer>*/}
                             </div>
                             <div className={"score-div"}>Correct answers: {score}</div>
+                            <div className={"answers-left"}>{150 - score} pictures left</div>
                             <div className={"participants-view-div"}>
                                 <div className={"virtual-player-status-div"}>
                                     {needsHelp ?
@@ -206,11 +207,6 @@ function GamePage() {
                                         <h1>Please classify the following image</h1>
                                         <div style={{"color": "red", "lineHeight": "0.2"}} className={"error-div"}
                                              hidden={!nonBlockedPlayersNeedHelp.has(playerName)}>
-                                            {/*There is a latency in loading images*/}
-                                            {/*<img className={"td-item"} src={"red-snail-icon.png"} alt={"red-snail"}*/}
-                                            {/*     width={"30px"}*/}
-                                            {/*     height={"30px"}/>*/}
-                                            {/*<br/>ViPer will take care of that!*/}
                                         </div>
                                         <div>
                                             <img className={"img-to-cls"} src={imageSrc} alt="pet"/>
@@ -235,10 +231,10 @@ function GamePage() {
                             </div>
                         </div>
                     </div> :
-                    <div className={"complete-game-div"}><strong>Complete Game <br/>You got {score} correct
+                    <div className={"complete-game-div"}><strong>Complete Game <br/>You answered 150 correct
                         classifications!</strong>
-                        <br/> Please continue to the final part of the experiment and you will receive your bonus
-                        shortly. <br/> Your bonus is {getBonus().toFixed(2)} $.
+                        <br/> Please continue to the final part of the experiment and you will receive your payment
+                        shortly. <br/>
                         <div><Link to={'/feedback'} ><Button onClick={onCompleteGame}
                             style={{"backgroundColor": "#1ab394", "borderColor": "#1ab394"}}>Next</Button></Link>
                         </div>
