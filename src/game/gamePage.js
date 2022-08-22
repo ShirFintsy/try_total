@@ -19,19 +19,23 @@ function GamePage() {
     const [needsHelp, setHelpRequest] = useState(false);
     const [robotQuiz, setQuiz] = useState(false);
     const [robotRunning, setRobot] = useState("Robot is currently classifying pictures");
-    const [flag, setFlag] = useState("");
-    const [count, setCount] = useState(0);
     const [clickedYes, addClickYes] = useState(0);
 
-    useEffect(() => {
-        let time = [50000, 50000, 30000, 75000, 90000];
+    useEffect(() => { //first help request
            setTimeout(() => {
                 if (!robotQuiz && !needsHelp) {
                     setHelpRequest(true);
-                    setCount(count + 1);
                 }
-            }, time[count % 5]);
-  }, [flag]);
+            }, 65000);
+  }, []);
+
+        useEffect(() => { //second help request
+           setTimeout(() => {
+                if (!robotQuiz && !needsHelp) {
+                    setHelpRequest(true);
+                }
+            }, 100000);
+  }, []);
 
     useEffect(() => {
         if(score === 150){
@@ -42,8 +46,8 @@ function GamePage() {
     const [play_right_sound] = useSound('/sounds/right.mp3');
     const [play_wrong_sound] = useSound('/sounds/wrong.mp3')
 
-    const gameDurationSec = 420;
-    let timer = null;
+    // const gameDurationSec = 420;
+     let timer = null;
 
     const websocket = useContext(WebSocketContext);
     const {session, setSession} = useContext(SessionContext);
@@ -85,12 +89,6 @@ function GamePage() {
     const afterHelp = () => {
         return new Promise(() => {
             setRobot("Thank You!")
-
-            if (flag===""){ // for rerender useEffect
-                setFlag("   ");
-            } else {
-                setFlag("");
-            }
 
             setTimeout(() => setRobot("Robot is currently classifying pictures"), 5000);
         })
@@ -142,18 +140,6 @@ function GamePage() {
                 !isCompleteGame ?
                     <div className={"cls-page"}>
                         <div className={"cls-page-col-2"}>
-                            <div className={"countdown-timer"}>
-                                {/*<CountdownCircleTimer isPlaying duration={gameDurationSec} size={100}*/}
-                                {/*                      colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000', 0.33]]}*/}
-                                {/*                      onComplete={onCompleteGame}*/}
-                                {/*>*/}
-                                {/*    {({remainingTime}) => {*/}
-                                {/*        const minutes = Math.floor(remainingTime / 60)*/}
-                                {/*        const seconds = remainingTime % 60*/}
-                                {/*        return `${minutes}:${seconds}`*/}
-                                {/*    }}*/}
-                                {/*</CountdownCircleTimer>*/}
-                            </div>
                             <div className={"score-div"}>Correct answers: {score}</div>
                             <div className={"answers-left"}>{150 - score} pictures left</div>
                             <div className={"participants-view-div"}>
@@ -168,7 +154,6 @@ function GamePage() {
                                         </div> :
                                         <div>
                                             <div> {robotRunning} </div>
-                                            <div> {flag}</div>
                                             <img src={"radio-bot-animated.gif"} alt={"robot-pic"}/>
                                         </div>
                                     }
