@@ -15,7 +15,8 @@ function AwarenessQuiz() {
     "Q1": "You will get no payment",
     "Q2": "I can choose to help the robot (click 'yes) or not (click 'no' or ignore)",
     "Q3": "The robot's current picture will be displayed and I will need to classify it (dog or cat), then return to " +
-        "my own task"
+        "my own task",
+    "Q4": "When I finished classify all 150 pictures"
   }
 
   const quizDef = {
@@ -27,9 +28,9 @@ function AwarenessQuiz() {
         isRequired: true,
         hasNone: false,
         choices: [
-          "You will get full payment without bonuses",
+          "You will get full payment",
           correctAnswers.Q1,
-          "You will get full payment including bonuses achieved till the point you left"
+          "You will get payment achieved till the point you left"
         ]
       }, {
         type: "radiogroup",
@@ -53,6 +54,17 @@ function AwarenessQuiz() {
           "I'll need to replace the robot in its task for good",
           "It will skip to my next picture",
         ]
+      }, {
+        type: "radiogroup",
+        name: "Q4",
+        title: "When the game ends?",
+        isRequired: true,
+        hasNone: false,
+        choices: [
+          correctAnswers.Q4,
+          "When I help the robot",
+          "After the robot finished its work",
+        ]
       }
     ]
   };
@@ -60,6 +72,8 @@ function AwarenessQuiz() {
   const surveyModel = new Survey.Model(quizDef);
   const [openFailedModal, setOpenFailedModal] = useState(false);
   const [passed, setPassed] = useState(false);
+  const [timesFailed, setTimes] = useState(0);
+  const [failedOnce, setFailed] = useState(false);
 
   const hasAnsweredCorrectly = (answers) => {
     return JSON.stringify(answers) === JSON.stringify(correctAnswers);
@@ -69,15 +83,24 @@ function AwarenessQuiz() {
     if (hasAnsweredCorrectly(survey.data)) {
       setPassed(true);
     } else {
+      setTimes(timesFailed + 1);
+      if (timesFailed !== 2) {
+             setFailed(true);
+        setTimeout(() => onCloseTryModel(), 2000);
+      }
+
+    }
+    if (timesFailed === 2) {
       websocket.send(JSON.stringify({"action": "failed-quiz", "answers": survey.data, "session": session}))
       surveyModel.clear();
       setOpenFailedModal(true);
-      setTimeout(throwOutFromExperiment, 8 * 1000)
+      setTimeout(throwOutFromExperiment, 8 * 1000);
     }
   }
 
   const onCloseFailedModal = () => setOpenFailedModal(false);
 
+  const onCloseTryModel = () => setFailed(false);
 
   return (
     <div>
@@ -93,7 +116,7 @@ function AwarenessQuiz() {
                 <a style={{"fontSize": "small"}}>Game Instructions</a>
               </Link>
             </div>
-            <Survey.Survey model={surveyModel} onComplete={onComplete} showCompletedPage={false}/>
+            <Survey.Survey id={"survey"} model={surveyModel} onComplete={onComplete} showCompletedPage={false}/>
             <Modal
               open={openFailedModal}
               onClose={onCloseFailedModal}
@@ -106,6 +129,21 @@ function AwarenessQuiz() {
                 </Typography>
                 <Typography id="modal-modal-description" sx={{mt: 2}}>
                   You failed the quiz, as a result you are disqualified from our experiment.
+                </Typography>
+              </Box>
+            </Modal>
+            <Modal
+              open={failedOnce}
+              onClose={onCloseTryModel}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+                <Box sx={modalStyle}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Failed
+                </Typography>
+                <Typography id="modal-modal-description" sx={{mt: 2}}>
+                  Try again!
                 </Typography>
               </Box>
             </Modal>
