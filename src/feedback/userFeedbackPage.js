@@ -22,7 +22,7 @@ function UserFeedbackPage() {
             name: "Q1",
             title: "How would you rate your willingness to help the robot?",
             minRateDescription: "Didn't want to help at all",
-            maxRateDescription: "Feel the need to help all the time",
+            maxRateDescription: "Feel the need to help both times",
             isRequired: true
           }, {
             type: "comment",
@@ -59,7 +59,7 @@ function UserFeedbackPage() {
           }, {
             type: "comment",
             name: "Q6",
-            title: "Any technical issues experienced or other thpughts?",
+            title: "Any technical issues experienced or other thoughts?",
             isRequired: true
           }
         ]
@@ -80,8 +80,8 @@ function UserFeedbackPage() {
       <h2>Feedback</h2>
       <div className={"feedback-intro-div"}>Thank you for taking part in the task. This task is a part of an
         academic research. <br/>
-        We really need you honest opinion about your willingness to help the robot (or refuse to help).<br/>
-        After completion this part you will get your payment and bonus.
+        We really need your honest opinion about your willingness to help the robot (or refuse to help).<br/>
+        After completion this part you will get your payment.
       </div>
       <Survey.Survey json={json} onComplete={onComplete}/>
       <PageTimeTracker pageName="userFeedback"/>
