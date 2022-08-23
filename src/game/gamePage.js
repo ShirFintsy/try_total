@@ -38,7 +38,7 @@ function GamePage() {
   }, []);
 
     useEffect(() => {
-        if(score === 150){
+        if(score === 10){ /******/
             onCompleteGame();
         }
     }, [score]);
@@ -60,9 +60,9 @@ function GamePage() {
     useEffect(() => websocket.send(JSON.stringify({"action": "start-game", "session": session})),
         [websocket, session]);
 
-    useEffect(() => {
-        websocket.send(JSON.stringify({"action": "update-score", "score": score, "session": session}));
-    }, [score, websocket, session]);
+    // useEffect(() => {
+    //     websocket.send(JSON.stringify({"action": "update-score", "score": score, "session": session}));
+    // }, [score, websocket, session]);
 
         useEffect(() => {
         websocket.send(JSON.stringify({"action": "update-click-counter", "yes": clickedYes, "session": session}));
