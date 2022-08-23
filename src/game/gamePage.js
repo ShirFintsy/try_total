@@ -141,7 +141,7 @@ function GamePage() {
                     <div className={"cls-page"}>
                         <div className={"cls-page-col-2"}>
                             <div className={"score-div"}>Correct answers: {score}</div>
-                            <div className={"answers-left"}>{150 - score} pictures left</div>
+                            <div className={"answers-left"}>{100 - score} pictures left</div>
                             <div className={"participants-view-div"}>
                                 <div className={"virtual-player-status-div"}>
                                     {needsHelp ?
@@ -216,7 +216,7 @@ function GamePage() {
                             </div>
                         </div>
                     </div> :
-                    <div className={"complete-game-div"}><strong>Complete Game <br/>You answered 150 correct
+                    <div className={"complete-game-div"}><strong>Complete Game <br/>You answered 100 correct
                         classifications!</strong>
                         <br/> Please continue to the final part of the experiment and you will receive your payment
                         shortly. <br/>
