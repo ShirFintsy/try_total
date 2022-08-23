@@ -38,7 +38,7 @@ function GamePage() {
   }, []);
 
     useEffect(() => {
-        if(score === 150){
+        if(score === 100){
             onCompleteGame();
         }
     }, [score]);

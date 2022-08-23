@@ -16,7 +16,7 @@ function AwarenessQuiz() {
     "Q2": "I can choose to help the robot (click 'yes) or not (click 'no' or ignore)",
     "Q3": "The robot's current picture will be displayed and I will need to classify it (dog or cat), then return to " +
         "my own task",
-    "Q4": "When I finished classify all 150 pictures"
+    "Q4": "When I finished classify all 100 pictures"
   }
 
   const quizDef = {
