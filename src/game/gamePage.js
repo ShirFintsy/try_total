@@ -109,6 +109,7 @@ function GamePage() {
         }
         console.log("before socket")
         setWaitForImage(true);
+        while (websocket.readyState !== websocket.OPEN);
         websocket.send(JSON.stringify({"action": "get-new-image", "session": session}));
         console.log("sent to socket")
         let millisecondsToNextImage = 2000;
