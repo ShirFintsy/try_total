@@ -23,11 +23,12 @@ function UserFeedbackPage() {
             title: "Please explain your decision to help or not to help the robot?",
             isRequired: true
           }, {
-            type: "radiogroup",
+            type: "checkbox",
             name: "Q2",
             title: "What could have influenced your decision to help the robot (you can choose more than one)?",
             isRequired: true,
             hasNone: false,
+            colCount: 1,
             choices: [
             "A voice help request",
             "different wording of the help request",
@@ -39,11 +40,10 @@ function UserFeedbackPage() {
       }, {
         "elements": [
           {
-            type: "comment",
+            type: "boolean",
             name: "Q3",
             title: "If a human being was asking you for help instead of robot, do you think you would help him more? Explain",
-            isRequired: true
-          }, {
+          } ,{
             type: "comment",
             name: "Q4",
             title: "In your opinion, if there were others that could have help robot (other than you), " +
