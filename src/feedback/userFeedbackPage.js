@@ -72,7 +72,7 @@ function UserFeedbackPage() {
     websocket.send(JSON.stringify({"action": "feedback", "session": session, "feedback": survey.data}));
     websocket.close();
     window.location.href = "https://app.prolific.co/submissions/complete?cc=71029DA9";
-
+    setTimeout(() => console.log("finished"), 5000);
   }
 
   return (
