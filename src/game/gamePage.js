@@ -103,16 +103,20 @@ function GamePage() {
         if (playerTag === imageTag) {
             setScore(score + 1);
             play_right_sound();
+            console.log("played sound")
         } else {
             play_wrong_sound();
         }
+        console.log("before socket")
         setWaitForImage(true);
         websocket.send(JSON.stringify({"action": "get-new-image", "session": session}));
+        console.log("sent to socket")
         let millisecondsToNextImage = 2000;
         if (nonBlockedPlayersNeedHelp.has(playerName)) {
             millisecondsToNextImage = 5000;
         }
         timer = setTimeout(() => setWaitForImage(false), millisecondsToNextImage);
+        console.log("finished function")
     }
 
 
