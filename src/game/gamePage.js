@@ -38,7 +38,7 @@ function GamePage() {
   }, []);
 
     useEffect(() => {
-        if(score === 15){ //100
+        if(score === 100){ //100
             onCompleteGame();
         }
     }, [score]);
@@ -109,9 +109,9 @@ function GamePage() {
         }
         console.log("before socket")
         setWaitForImage(true);
-        if (websocket.readyState !== websocket.OPEN) {
-            return;
-        }
+        // if (websocket.readyState !== websocket.OPEN) {
+        //     return;
+        // }
         websocket.send(JSON.stringify({"action": "get-new-image", "session": session}));
         console.log("sent to socket")
         let millisecondsToNextImage = 2000;
