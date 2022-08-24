@@ -13,10 +13,10 @@ function AwarenessQuiz() {
 
   const correctAnswers = {
     "Q1": "You will get no payment",
-    "Q2": "I can choose to help the robot (click 'yes) or not (click 'no' or ignore)",
+    "Q2": "I can choose to help the robot (click 'I'm ready to help') or not (ignore)",
     "Q3": "The robot's current picture will be displayed and I will need to classify it (dog or cat), then return to " +
         "my own task",
-    "Q4": "When I finished classify all 100 pictures"
+    "Q4": "Once I classify correctly 100 pictures"
   }
 
   const quizDef = {
@@ -40,13 +40,13 @@ function AwarenessQuiz() {
         hasNone: false,
         choices: [
           "I will ignore that",
-          "I will always click 'yes'",
+          "I will always click 'I'm ready to help'",
           correctAnswers.Q2
         ]
       }, {
         type: "radiogroup",
         name: "Q3",
-        title: "What will happens if you click on 'yes' to the help the robot?",
+        title: "What will happen if you click on 'I'm ready to help' in response to the help request of the robot?",
         isRequired: true,
         hasNone: false,
         choices: [
@@ -57,13 +57,13 @@ function AwarenessQuiz() {
       }, {
         type: "radiogroup",
         name: "Q4",
-        title: "When the game ends?",
+        title: "When does the game end?",
         isRequired: true,
         hasNone: false,
         choices: [
           correctAnswers.Q4,
           "When I help the robot",
-          "After the robot finished its work",
+          "Once the robot finishes its own task",
         ]
       }
     ]
@@ -109,7 +109,7 @@ function AwarenessQuiz() {
           <div className={"quiz-div"}>
             <div style={{"marginBottom": "20px", "color": "#6d707c", "fontWeight": "bold", "fontSize": "large"}}>
               To make sure you understand the task, please answer the following four questions.<br/>
-              <span style={{"color": "red"}}> You must answer all the questions correctly at the first try</span>,
+              <span style={{"color": "red"}}> You must answer all the questions correctly. You have 3 tries to succeed</span>,
               otherwise you will be disqualified and won't get paid. <br/>Go back to the tutorial if you need a
               reminder!<br/>
               <Link to={"/about"}>

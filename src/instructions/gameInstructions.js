@@ -24,7 +24,7 @@ function GameInstructions() {
     <div className={"about-div"}>
       <h2 className={"app-heading-h2"} style={{"marginBottom": "20px"}}>About the task</h2>
       <p className={"instruction-passage"} hidden={partIdx !== 0}>
-        <h5 style={{"color": "#db1111"}}>Please take good care, -there will be an attention quiz later on!</h5>
+        <h5 style={{"color": "#db1111"}}>Please take good care, there will be an attention quiz later on!</h5>
         Your task is to correctly classify 100 pictures of dogs and cats. At any given stage you will receive a
           picture and you will need to press the button with the correct classification according to your best judgement.<br/>
         To enrich our pile of annotated pictures, we also have a robot working on the same task in parallel
@@ -32,10 +32,10 @@ function GameInstructions() {
           <span
         style={{"fontWeight": "bold", "fontSize": "calc(1.2rem + .5vw)", "color": "red"}}> Notice! &nbsp;</span>
         From time to time the robot will probably have trouble correctly identifying if it is a dog or a cat in its
-          picture. When this occurs, the robot might ask for your help. It is up to you decide if you want to help
+          picture. When this occurs, the robot might ask for your help. It is up to you to decide if you want to help
           the robot (while helping you cannot progress with your own classification task).
-          You will not get score for identify the robot's pictures.<br/> After you will finish classify all pictures,
-          you will be needed to answer some feedback questions and then you will get your payment.
+          You will not get score for identifying the robot's pictures.<br/>Once you finish correctly classifying 100
+        pictures, we will ask for a short feedback.
       </p>
       <div className={"nav-btn-div"}>
         <Button hidden={partIdx === 0} onClick={onClickPrev}

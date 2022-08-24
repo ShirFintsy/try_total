@@ -22,23 +22,17 @@ function GamePage() {
     const [clickedYes, addClickYes] = useState(0);
 
     useEffect(() => { //first help request
-           setTimeout(() => {
-                if (!robotQuiz && !needsHelp) {
-                    setHelpRequest(true);
-                }
-            }, 65000);
-  }, []);
+        if (score === 60) {
+            setHelpRequest(true);
+        }
+        if (score === 85) {
+            setHelpRequest(true);
+        }
+  }, [score]);
 
-        useEffect(() => { //second help request
-           setTimeout(() => {
-                if (!robotQuiz && !needsHelp) {
-                    setHelpRequest(true);
-                }
-            }, 100000);
-  }, []);
 
     useEffect(() => {
-        if(score === 100){ //100
+        if(score === 100){
             onCompleteGame();
         }
     }, [score]);
@@ -123,22 +117,12 @@ function GamePage() {
     }
 
 
-    const onHelpAnswer = async (answer) => {
-        if (answer === "Yes") {
-            setHelpRequest(false);
-            setQuiz(true);
-            setRobot("");
-            addClickYes(clickedYes + 1);
-            console.log(clickedYes);
-            websocket.send(JSON.stringify({"action": "get-bot-image", "session": session}));
-        } else {
-            setHelpRequest(false);
-            setRobot("Please I'm stuck");
-            // set timer to ask again
-            setTimeout(() => {
-                setHelpRequest(true);
-            }, 5000);
-        }
+    const onHelpAnswer = () => {
+        setHelpRequest(false);
+        setQuiz(true);
+        setRobot("");
+        addClickYes(clickedYes + 1);
+        websocket.send(JSON.stringify({"action": "get-bot-image", "session": session}));
     }
 
     return (
@@ -147,7 +131,7 @@ function GamePage() {
                 !isCompleteGame ?
                     <div className={"cls-page"}>
                         <div className={"cls-page-col-2"}>
-                            <div className={"score-div"}>Correct answers: {score}</div>
+                            <div className={"score-div"}>Correct classification: {score}</div>
                             <div className={"answers-left"}>{100 - score} pictures left</div>
                             <div className={"participants-view-div"}>
                                 <div className={"virtual-player-status-div"}>
@@ -155,9 +139,7 @@ function GamePage() {
                                         <div>
                                             <div className={"asked-for-help"}>I need help. Can you help me?</div>
                                             <Button className={"help-button"}
-                                                    onClick={() => onHelpAnswer("Yes")}> Yes </Button>
-                                            <Button className={"help-button"}
-                                                    onClick={() => onHelpAnswer("No")}> No </Button>
+                                                    onClick={() => onHelpAnswer()}> I'm ready to help </Button>
                                         </div> :
                                         <div>
                                             <div> {robotRunning} </div>
@@ -223,10 +205,9 @@ function GamePage() {
                             </div>
                         </div>
                     </div> :
-                    <div className={"complete-game-div"}><strong>Complete Game <br/>You answered 100 correct
-                        classifications!</strong>
-                        <br/> Please continue to the final part of the experiment and you will receive your payment
-                        shortly. <br/>
+                    <div className={"complete-game-div"}><strong>Thank you! <br/>You've completed 100 correct
+                        classifications.</strong>
+                        <br/> Please continue to the feedback stage in order to successfully finish this Hit. <br/>
                         <div><Link to={'/feedback'} ><Button onClick={onCompleteGame}
                             style={{"backgroundColor": "#1ab394", "borderColor": "#1ab394"}}>Next</Button></Link>
                         </div>

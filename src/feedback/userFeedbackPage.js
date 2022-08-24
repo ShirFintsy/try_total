@@ -17,22 +17,15 @@ function UserFeedbackPage() {
     pages: [
       {
         "elements": [
-          {
-            type: "rating",
-            name: "Q1",
-            title: "How would you rate your willingness to help the robot?",
-            minRateDescription: "Didn't want to help at all",
-            maxRateDescription: "Feel the need to help both times",
-            isRequired: true
-          }, {
+            {
             type: "comment",
-            name: "Q2",
-            title: "In case you help the robot at least once, why did you do that?",
+            name: "Q1",
+            title: "Please explain your decision to help or not to help the robot?",
             isRequired: true
           }, {
             type: "radiogroup",
-            name: "Q3",
-            title: "What would influence you to help the robot more?",
+            name: "Q2",
+            title: "What could have influenced your decision to help the robot (you can choose more than one)?",
             isRequired: true,
             hasNone: false,
             choices: [
@@ -47,18 +40,18 @@ function UserFeedbackPage() {
         "elements": [
           {
             type: "comment",
-            name: "Q4",
+            name: "Q3",
             title: "If a human being was asking you for help instead of robot, do you think you would help him more? Explain",
             isRequired: true
           }, {
             type: "comment",
-            name: "Q5",
+            name: "Q4",
             title: "In your opinion, if there were others that could have help robot (other than you), " +
                 "do you think you would have helped more or less? Explain",
             isRequired: true
           }, {
             type: "comment",
-            name: "Q6",
+            name: "Q5",
             title: "Any technical issues experienced or other thoughts?",
             isRequired: true
           }
@@ -78,10 +71,10 @@ function UserFeedbackPage() {
   return (
     <div className={"feedback-page-div"}>
       <h2>Feedback</h2>
-      <div className={"feedback-intro-div"}>Thank you for taking part in the task. This task is a part of an
+      <div className={"feedback-intro-div"}>Thank you for taking part in the HIT. This HIT is a part of an
         academic research. <br/>
         We really need your honest opinion about your willingness to help the robot (or refuse to help).<br/>
-        After completion this part you will get your payment.
+        After completing this part you will get your payment.
       </div>
       <Survey.Survey json={json} onComplete={onComplete}/>
       <PageTimeTracker pageName="userFeedback"/>
