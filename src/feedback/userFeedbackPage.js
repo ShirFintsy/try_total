@@ -14,6 +14,7 @@ function UserFeedbackPage() {
     showProgressBar: "bottom",
     goNextPageAutomatic: false,
     showNavigationButtons: true,
+    showQuestionNumbers: "off",
     pages: [
       {
         "elements": [
@@ -42,13 +43,24 @@ function UserFeedbackPage() {
           {
             type: "boolean",
             name: "Q3",
-            title: "If a human being was asking you for help instead of robot, do you think you would help him more? Explain",
+            title: "If a human being was asking you for help instead of robot, do you think you would help him more?",
+            isRequired: true,
           } ,{
             type: "comment",
+            name: "Q3 explanation",
+            title: "Explain why",
+            visibleIf: "{Q3} = true || {Q3} = false",
+          } ,{
+            type: "boolean",
             name: "Q4",
             title: "In your opinion, if there were others that could have help robot (other than you), " +
-                "do you think you would have helped more or less? Explain",
+                "do you think you would have helped more or less?",
             isRequired: true
+          },{
+            type: "comment",
+            name: "Q4 explanation",
+            title: "Explain why",
+            visibleIf: "{Q4} = true || {Q4} = false",
           }, {
             type: "comment",
             name: "Q5",
