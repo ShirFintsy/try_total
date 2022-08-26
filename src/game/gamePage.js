@@ -103,9 +103,6 @@ function GamePage() {
         }
         console.log("before socket")
         setWaitForImage(true);
-        // if (websocket.readyState !== websocket.OPEN) {
-        //     return;
-        // }
         websocket.send(JSON.stringify({"action": "get-new-image", "session": session}));
         console.log("sent to socket")
         let millisecondsToNextImage = 2000;
@@ -138,8 +135,10 @@ function GamePage() {
                                     {needsHelp ?
                                         <div>
                                             <div className={"asked-for-help"}>I need help. Can you help me?</div>
-                                            <Button className={"help-button"}
-                                                    onClick={() => onHelpAnswer()}> I'm ready to help </Button>
+                                            <Button id={"help-button"} size={"lg"}
+                                                    onClick={() => onHelpAnswer()}> I'm ready to help
+                                              <img src={"happy_whitel.png"} alt={"smiley"} className={"happy-icon"}></img>
+                                            </Button>
                                         </div> :
                                         <div>
                                             <div> {robotRunning} </div>
