@@ -5,7 +5,7 @@ import {useHistory} from "react-router-dom";
 import PageTimeTracker from "../utils/pageTimeTracker";
 
 function Tutorial() {
-  const pictures = ['image1.png', 'image2.png', 'image3.png', 'image4.png', 'image5.png']
+  const pictures = ['image1.png', 'image2.png', 'image3.png', 'image4.png']
 
   const [currentPictureIdx, setCurrentPictureIdx] = useState(0);
 
