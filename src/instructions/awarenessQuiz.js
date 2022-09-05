@@ -156,7 +156,7 @@ function AwarenessQuiz() {
             >
                 <Box sx={modalStyle}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Failed questions {wrongAnswers.map(e => <div> {e}</div>)}
+                  Failed questions {wrongAnswers.map(e => <span> {e }</span>)}
                 </Typography>
                 <Typography id="modal-modal-description" sx={{mt: 2}}>
                   Try again!
