@@ -99,7 +99,10 @@ function AwarenessQuiz() {
       setTimes(timesFailed + 1);
       if (timesFailed !== 2) {
              setFailed(true);
-        setTimeout(() => onCloseTryModel(), 2000);
+        setTimeout(() => {
+          onCloseTryModel();
+          setWrongAnswers([]);
+        }, 2500);
       }
 
     }
