@@ -135,12 +135,10 @@ function GamePage() {
                                     {needsHelp ?
                                         <div>
                                             <div className={"asked-for-help"}>I need help. Can you help me?
-                                            <img src={"happy_whitel.png"} alt={"smiley"} className={"happy-icon"}></img>
                                             </div>
 
                                             <Button id={"help-button"} size={"lg"}
                                                     onClick={() => onHelpAnswer()}> I'm ready to help
-                                              {/*<img src={"happy_whitel.png"} alt={"smiley"} className={"happy-icon"}></img>*/}
                                             </Button>
                                         </div> :
                                         <div>
