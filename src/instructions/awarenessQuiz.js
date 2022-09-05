@@ -74,8 +74,21 @@ function AwarenessQuiz() {
   const [passed, setPassed] = useState(false);
   const [timesFailed, setTimes] = useState(0);
   const [failedOnce, setFailed] = useState(false);
+  const [wrongAnswers, setWrongAnswers] = useState([]);
 
   const hasAnsweredCorrectly = (answers) => {
+    if (JSON.stringify(answers.Q1) !== JSON.stringify(correctAnswers.Q1)) {
+      setWrongAnswers( arr => [...arr, 1]);
+    }
+    if (JSON.stringify(answers.Q2) !== JSON.stringify(correctAnswers.Q2)) {
+      setWrongAnswers( arr => [...arr, 2]);
+    }
+    if (JSON.stringify(answers.Q3) !== JSON.stringify(correctAnswers.Q3)) {
+      setWrongAnswers( arr => [...arr, 3]);
+    }
+    if (JSON.stringify(answers.Q4) !== JSON.stringify(correctAnswers.Q4)) {
+      setWrongAnswers( arr => [...arr, 4]);
+    }
     return JSON.stringify(answers) === JSON.stringify(correctAnswers);
   }
 
@@ -140,7 +153,7 @@ function AwarenessQuiz() {
             >
                 <Box sx={modalStyle}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Failed
+                  Failed questions {wrongAnswers.map(e => <div> {e}</div>)}
                 </Typography>
                 <Typography id="modal-modal-description" sx={{mt: 2}}>
                   Try again!
