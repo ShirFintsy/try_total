@@ -29,12 +29,13 @@ function UserFeedbackPage() {
             title: "What could have influenced your decision to help the robot (you can choose more than one)?",
             isRequired: true,
             hasNone: false,
+            hasOther: true,
             colCount: 1,
             choices: [
             "A voice help request",
             "different wording of the help request",
             "Present the rationale",
-              "other",
+
           ]
         }
         ]
