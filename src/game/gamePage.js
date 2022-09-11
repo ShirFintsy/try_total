@@ -6,6 +6,7 @@ import {SessionContext, WebSocketContext} from "../utils/sessions";
 import {Link} from "react-router-dom";
 import useSound from "use-sound";
 import {throwOutFromExperiment} from "../utils/generalUtils";
+import Modal from 'react-bootstrap/Modal';
 
 
 function GamePage() {
@@ -20,7 +21,11 @@ function GamePage() {
     const [robotQuiz, setQuiz] = useState(false);
     const [robotRunning, setRobot] = useState("Robot is currently classifying pictures");
     const [clickedYes, addClickYes] = useState(0);
+    const [robotImgSrc, setImgSrc] = useState("radio-bot-animated.gif");
 
+    /**
+     * Send a help request after getting 60 or 85 classifications or notify when game ended
+     */
     useEffect(() => { //first help request
         if (score === 60) {
             setHelpRequest(true);
@@ -28,19 +33,21 @@ function GamePage() {
         if (score === 85) {
             setHelpRequest(true);
         }
-  }, [score]);
-
-
-    useEffect(() => {
         if(score === 100){
             onCompleteGame();
         }
-    }, [score]);
+  }, [score]);
+
+
+    // useEffect(() => {
+    //     if(score === 100){
+    //         onCompleteGame();
+    //     }
+    // }, [score]);
 
     const [play_right_sound] = useSound('/sounds/right.mp3');
     const [play_wrong_sound] = useSound('/sounds/wrong.mp3')
 
-    // const gameDurationSec = 420;
      let timer = null;
 
     const websocket = useContext(WebSocketContext);
@@ -51,19 +58,20 @@ function GamePage() {
     }
     const playerName = session ? session.name : undefined;
 
+    /* Notify the server the game started */
     useEffect(() => websocket.send(JSON.stringify({"action": "start-game", "session": session})),
         [websocket, session]);
 
-    // useEffect(() => {
-    //     websocket.send(JSON.stringify({"action": "update-score", "score": score, "session": session}));
-    // }, [score, websocket, session]);
-
-        useEffect(() => {
+    /* Notify the server the user click yes to help */
+    useEffect(() => {
         websocket.send(JSON.stringify({"action": "update-click-counter", "yes": clickedYes, "session": session}));
     }, [clickedYes, websocket, session]);
 
 
-
+    /**
+     * Get an image for the game from server
+     * @param event - the info from server
+     */
     websocket.onmessage = function (event) {
         const data = JSON.parse(event.data);
         if(data.type === "get-image") {
@@ -75,6 +83,13 @@ function GamePage() {
         }
     }
 
+    const handleCLose = () => {
+        setHelpRequest(false)
+        setRobot("");
+        setImgSrc("radio-bot-animated.gif"); // todo: replace to stuck robot
+    }
+
+    /* Notify the server the game ended */
     const onCompleteGame = () => {
         websocket.send(JSON.stringify({"action": "complete-game", "session": session}));
         setCompleteGame(true);
@@ -115,11 +130,12 @@ function GamePage() {
 
 
     const onHelpAnswer = () => {
-        setHelpRequest(false);
-        setQuiz(true);
-        setRobot("");
-        addClickYes(clickedYes + 1);
-        websocket.send(JSON.stringify({"action": "get-bot-image", "session": session}));
+            setHelpRequest(false);
+            setQuiz(true);
+            setRobot("");
+            setImageSrc("");
+            addClickYes(clickedYes + 1);
+            websocket.send(JSON.stringify({"action": "get-bot-image", "session": session}));
     }
 
     return (
@@ -132,20 +148,26 @@ function GamePage() {
                             <div className={"answers-left"}>{100 - score} pictures left</div>
                             <div className={"participants-view-div"}>
                                 <div className={"virtual-player-status-div"}>
-                                    {needsHelp ?
-                                        <div>
-                                            <div className={"asked-for-help"}>I need help. Can you help me?
-                                            </div>
 
-                                            <Button id={"help-button"} size={"lg"}
-                                                    onClick={() => onHelpAnswer()}> I'm ready to help
-                                            </Button>
-                                        </div> :
-                                        <div>
-                                            <div> {robotRunning} </div>
-                                            <img src={"radio-bot-animated.gif"} alt={"robot-pic"}/>
-                                        </div>
-                                    }
+
+                                    <Modal show={needsHelp}>
+                                                <Modal.Header closeButton>
+                                                    <Modal.Title>The robot needs help </Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>I can't identify my image. Can you welp me </Modal.Body>
+                                                    <Modal.Footer>
+                                                        <Button variant="secondary" onClick={handleCLose}>
+                                                            No
+                                                        </Button>
+                                                        <Button variant="primary" onClick={onHelpAnswer}>
+                                                            Yes
+                                                        </Button>
+                                                    </Modal.Footer>
+                                    </Modal>
+                                    <div>
+                                        <span>{robotRunning}</span>
+                                    <img src={robotImgSrc} alt={"robot-pic"}/>
+                                    </div>
                                 </div>
 
 
