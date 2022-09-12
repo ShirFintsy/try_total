@@ -13,10 +13,10 @@ function AwarenessQuiz() {
 
   const correctAnswers = {
     "Q1": "You will get no payment",
-    "Q2": "I can choose to help the robot (click 'I'm ready to help') or not (ignore)",
-    "Q3": "The robot's current picture will be displayed and I will need to classify it (dog or cat), then return to " +
-        "my own task",
-    "Q4": "Once I classify correctly 100 pictures"
+    "Q2": "I can choose to help the robot (click 'Yes') or not (click 'No')",
+    "Q3": "The robot's current picture will be displayed after 30 seconds and I will need to classify it (dog or cat)," +
+        " then return to my own task",
+    "Q4": "Once I classify correctly 70 pictures"
   }
 
   const quizDef = {
@@ -40,19 +40,19 @@ function AwarenessQuiz() {
         hasNone: false,
         choices: [
           "I will ignore that",
-          "I will always click 'I'm ready to help'",
+          "I will always click 'Yes'",
           correctAnswers.Q2
         ]
       }, {
         type: "radiogroup",
         name: "Q3",
-        title: "What will happen if you click on 'I'm ready to help' in response to the help request of the robot?",
+        title: "What will happen if you click on 'Yes' in response to the help request of the robot?",
         isRequired: true,
         hasNone: false,
         choices: [
           correctAnswers.Q3,
           "I'll need to replace the robot in its task for good",
-          "It will skip to my next picture",
+          "It will skip to my next picture after 30 seconds",
         ]
       }, {
         type: "radiogroup",

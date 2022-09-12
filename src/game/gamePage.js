@@ -23,22 +23,34 @@ function GamePage() {
     const [clickedYes, addClickYes] = useState(0);
     const [robotImgSrc, setImgSrc] = useState("radio-bot-animated.gif");
     const [loading, setLoading] = useState(false);
+    const [loadingActivity, setLoadingAct] = useState("Reading Image...")
 
     /**
      * Send a help request after getting 60 or 85 classifications or notify when game ended
      */
-    useEffect(() => { //first help request
-        if (score === 3) { //debug
+    useEffect(() => {
+        // if (score % 3 === 0) {
+        //     setHelpRequest(true);
+        // }
+        if (score === 32) {
             setHelpRequest(true);
         }
-        if (score === 6) { //debug
+        if (score === 57) {
             setHelpRequest(true);
         }
-        if(score === 100){
+        if(score === 70){
             onCompleteGame();
         }
+
   }, [score]);
 
+    useEffect(() => {
+        if (loading) {
+            setTimeout(() => setLoadingAct("action2"), 5000);
+            setTimeout(() => setLoadingAct("action3"), 10000);
+            setTimeout(() => setLoadingAct("action4"), 15000);
+        }
+    }, [loading])
 
     // useEffect(() => {
     //     if(score === 100){
@@ -117,16 +129,13 @@ function GamePage() {
         } else {
             play_wrong_sound();
         }
-        console.log("before socket")
         setWaitForImage(true);
         websocket.send(JSON.stringify({"action": "get-new-image", "session": session}));
-        console.log("sent to socket")
         let millisecondsToNextImage = 2000;
         if (nonBlockedPlayersNeedHelp.has(playerName)) {
             millisecondsToNextImage = 5000;
         }
         timer = setTimeout(() => setWaitForImage(false), millisecondsToNextImage);
-        console.log("finished function")
     }
 
 
@@ -134,23 +143,23 @@ function GamePage() {
             setHelpRequest(false);
             setQuiz(true);
             setRobot("");
-            setImageSrc("");
+            //setImgSrc("");
             addClickYes(clickedYes + 1);
             setLoading(true);
-            setTimeout(() => {setLoading(false)}, 10000);
+            setTimeout(() => {setLoading(false)}, 30000);
             websocket.send(JSON.stringify({"action": "get-bot-image", "session": session})); //maybe sync?
     }
 
     return (
-        <div>
-            {
-                !isCompleteGame ?
-                    <div className={"cls-page"}>
-                        <div className={"cls-page-col-2"}>
-                            <div className={"score-div"}>Correct classification: {score}</div>
-                            <div className={"answers-left"}>{100 - score} pictures left</div>
-                            <div className={"participants-view-div"}>
-                                <div className={"virtual-player-status-div"}>
+        <div className={"content"}>
+                <div className={"main-content"}>
+                    {!isCompleteGame ?
+                        <div className={"cls-page"}>
+                            <div className={"cls-page-col-2"}>
+                                <div className={"score-div"}>Correct classification: {score}</div>
+                                <div className={"answers-left"}>{70 - score} pictures left</div>
+                                <div className={"participants-view-div"}>
+                                    <div className={"virtual-player-status-div"}>
                                         <Modal show={needsHelp}>
                                             <Modal.Header closeButton>
                                                 <Modal.Title>The robot needs help </Modal.Title>
@@ -166,7 +175,7 @@ function GamePage() {
                                             </Modal.Footer>
                                         </Modal>
 
-                                </div>
+                                    </div>
                                     <div>
                                         <span>{robotRunning}</span>
                                         <img src={robotImgSrc} alt={"robot-pic"}/>
@@ -174,177 +183,81 @@ function GamePage() {
 
                                 </div>
 
+
                             </div>
-                        {/*the main side of the window */}
-                        <div className={"cls-page-col-1"}>
-                            { loading ?
-                                <div className="loader-container">
-                                    <div className="spinner"></div>
-                                </div> :
-                            <div>
-                                {robotQuiz ?
-                                    <div className={"robot-quiz"}>
-                                        <h1>The Robot Quiz</h1>
-                                        <h2>Please classify the following image</h2>
-                                        <div>
-                                            <img className={"img-to-cls"} src={botImageSrc} alt="pet"/>
-                                            <div>
-                                                <Button style={{
-                                                    "backgroundColor": "sandybrown",
-                                                    "borderColor": "sandybrown"
-                                                }}
-                                                        className={"class-btn"}
-                                                        onClick={() => onTagButton('Cat', "robot")}>Cat</Button>
-                                                <Button style={{
-                                                    "backgroundColor": "cornflowerblue",
-                                                    "borderColor": "cornflowerblue"
-                                                }}
-                                                        className={"class-btn"}
-                                                        onClick={() => onTagButton('Dog', "robot")}>Dog</Button>
-                                            </div>
+                            {/*the main side of the window */}
+                            <div className={"cls-page-col-1"}>
+                                {loading ?
+                                    <div className="loader-container">
+                                        <div className={"list"}>
+                                            <ul><div className="spinner"></div></ul>
+                                        <ul>{loadingActivity}</ul> {/*todo: the assigment from dudi*/}
                                         </div>
-
                                     </div> :
-                                    <div>
-                                        <h1>Please classify the following image</h1>
-                                        <div style={{"color": "red", "lineHeight": "0.2"}} className={"error-div"}
-                                             hidden={!nonBlockedPlayersNeedHelp.has(playerName)}>
-                                        </div>
-                                        <div>
-                                            <img className={"img-to-cls"} src={imageSrc} alt="pet"/>
+                                <div>
+                                    {robotQuiz ?
+                                        <div className={"robot-quiz"}>
+                                            <h1>The Robot Quiz</h1>
+                                            <h2>Please classify the following image</h2>
                                             <div>
-                                                <Button style={{
-                                                    "backgroundColor": "sandybrown",
-                                                    "borderColor": "sandybrown"
-                                                }}
-                                                        className={"class-btn"}
-                                                        onClick={() => onTagButton('Cat', "user")}>Cat</Button>
-                                                <Button style={{
-                                                    "backgroundColor": "cornflowerblue",
-                                                    "borderColor": "cornflowerblue"
-                                                }}
-                                                        className={"class-btn"}
-                                                        onClick={() => onTagButton('Dog', "user")}>Dog</Button>
+                                                <img className={"img-to-cls"} src={botImageSrc} alt="pet"/>
+                                                <div>
+                                                    <Button style={{
+                                                        "backgroundColor": "sandybrown",
+                                                        "borderColor": "sandybrown"
+                                                    }}
+                                                            className={"class-btn"}
+                                                            onClick={() => onTagButton('Cat', "robot")}>Cat</Button>
+                                                    <Button style={{
+                                                        "backgroundColor": "cornflowerblue",
+                                                        "borderColor": "cornflowerblue"
+                                                    }}
+                                                            className={"class-btn"}
+                                                            onClick={() => onTagButton('Dog', "robot")}>Dog</Button>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                    </div> }
-                            </div>}
+                                        </div> :
+                                        <div>
+                                            <h1>Please classify the following image</h1>
+                                            <div style={{"color": "red", "lineHeight": "0.2"}} className={"error-div"}
+                                                 hidden={!nonBlockedPlayersNeedHelp.has(playerName)}>
+                                            </div>
+                                            <div>
+                                                <img className={"img-to-cls"} src={imageSrc} alt="pet"/>
+                                                <div>
+                                                    <Button style={{
+                                                        "backgroundColor": "sandybrown",
+                                                        "borderColor": "sandybrown"
+                                                    }}
+                                                            className={"class-btn"}
+                                                            onClick={() => onTagButton('Cat', "user")}>Cat</Button>
+                                                    <Button style={{
+                                                        "backgroundColor": "cornflowerblue",
+                                                        "borderColor": "cornflowerblue"
+                                                    }}
+                                                            className={"class-btn"}
+                                                            onClick={() => onTagButton('Dog', "user")}>Dog</Button>
+                                                </div>
+                                            </div>
+
+                                        </div>}
+                                </div> }
+                            </div>
+                        </div> :
+                        <div className={"complete-game-div"}><strong>Thank you! <br/>You've completed 70 correct
+                            classifications.</strong>
+                            <br/> Please continue to the feedback stage in order to successfully finish this Hit. <br/>
+                            <div><Link to={'/feedback'}><Button onClick={onCompleteGame}
+                                                                style={{
+                                                                    "backgroundColor": "#1ab394",
+                                                                    "borderColor": "#1ab394"
+                                                                }}>Next</Button></Link>
+                            </div>
                         </div>
-                    </div> :
-                    <div className={"complete-game-div"}><strong>Thank you! <br/>You've completed 100 correct
-                        classifications.</strong>
-                        <br/> Please continue to the feedback stage in order to successfully finish this Hit. <br/>
-                        <div><Link to={'/feedback'} ><Button onClick={onCompleteGame}
-                            style={{"backgroundColor": "#1ab394", "borderColor": "#1ab394"}}>Next</Button></Link>
-                        </div>
-                    </div>
-            }
+                    }
+                </div>
         </div>
-
-
-        // <div>
-        //     {
-        //         !isCompleteGame ?
-        //             <div>
-        //             { loading ?
-        //                 <div className="loader-container">
-        //                     <div className="spinner"></div>
-        //                 </div> :
-        //             <div className={"cls-page"}>
-        //                 <div className={"cls-page-col-2"}>
-        //                     <div className={"score-div"}>Correct classification: {score}</div>
-        //                     <div className={"answers-left"}>{100 - score} pictures left</div>
-        //                     <div className={"participants-view-div"}>
-        //                         <div className={"virtual-player-status-div"}>
-        //                                 <Modal show={needsHelp}>
-        //                                     <Modal.Header closeButton>
-        //                                         <Modal.Title>The robot needs help </Modal.Title>
-        //                                     </Modal.Header>
-        //                                     <Modal.Body>I can't identify my image. Can you welp me </Modal.Body>
-        //                                     <Modal.Footer>
-        //                                         <Button variant="secondary" onClick={handleCLose}>
-        //                                             No
-        //                                         </Button>
-        //                                         <Button variant="primary" onClick={onHelpAnswer}>
-        //                                             Yes
-        //                                         </Button>
-        //                                     </Modal.Footer>
-        //                                 </Modal>
-        //
-        //                         </div>
-        //                             <div>
-        //                                 <span>{robotRunning}</span>
-        //                                 <img src={robotImgSrc} alt={"robot-pic"}/>
-        //                             </div>
-        //
-        //                         </div>
-        //
-        //
-        //                     </div>
-        //                 {/*the main side of the window */}
-        //                 <div className={"cls-page-col-1"}>
-        //                     <div>
-        //                         {robotQuiz ?
-        //                             <div className={"robot-quiz"}>
-        //                                 <h1>The Robot Quiz</h1>
-        //                                 <h2>Please classify the following image</h2>
-        //                                 <div>
-        //                                     <img className={"img-to-cls"} src={botImageSrc} alt="pet"/>
-        //                                     <div>
-        //                                         <Button style={{
-        //                                             "backgroundColor": "sandybrown",
-        //                                             "borderColor": "sandybrown"
-        //                                         }}
-        //                                                 className={"class-btn"}
-        //                                                 onClick={() => onTagButton('Cat', "robot")}>Cat</Button>
-        //                                         <Button style={{
-        //                                             "backgroundColor": "cornflowerblue",
-        //                                             "borderColor": "cornflowerblue"
-        //                                         }}
-        //                                                 className={"class-btn"}
-        //                                                 onClick={() => onTagButton('Dog', "robot")}>Dog</Button>
-        //                                     </div>
-        //                                 </div>
-        //
-        //                             </div> :
-        //                             <div>
-        //                                 <h1>Please classify the following image</h1>
-        //                                 <div style={{"color": "red", "lineHeight": "0.2"}} className={"error-div"}
-        //                                      hidden={!nonBlockedPlayersNeedHelp.has(playerName)}>
-        //                                 </div>
-        //                                 <div>
-        //                                     <img className={"img-to-cls"} src={imageSrc} alt="pet"/>
-        //                                     <div>
-        //                                         <Button style={{
-        //                                             "backgroundColor": "sandybrown",
-        //                                             "borderColor": "sandybrown"
-        //                                         }}
-        //                                                 className={"class-btn"}
-        //                                                 onClick={() => onTagButton('Cat', "user")}>Cat</Button>
-        //                                         <Button style={{
-        //                                             "backgroundColor": "cornflowerblue",
-        //                                             "borderColor": "cornflowerblue"
-        //                                         }}
-        //                                                 className={"class-btn"}
-        //                                                 onClick={() => onTagButton('Dog', "user")}>Dog</Button>
-        //                                     </div>
-        //                                 </div>
-        //
-        //                             </div> }
-        //                     </div>
-        //                 </div>
-        //             </div>}
-        //             </div> :
-        //             <div className={"complete-game-div"}><strong>Thank you! <br/>You've completed 100 correct
-        //                 classifications.</strong>
-        //                 <br/> Please continue to the feedback stage in order to successfully finish this Hit. <br/>
-        //                 <div><Link to={'/feedback'} ><Button onClick={onCompleteGame}
-        //                     style={{"backgroundColor": "#1ab394", "borderColor": "#1ab394"}}>Next</Button></Link>
-        //                 </div>
-        //             </div>
-        //     }
-        // </div>
     )
 }
     export default GamePage;

@@ -35,7 +35,6 @@ function UserFeedbackPage() {
             "A voice help request",
             "different wording of the help request",
             "Present the rationale",
-
           ]
         }
         ]
