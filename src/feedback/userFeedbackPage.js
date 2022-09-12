@@ -50,6 +50,7 @@ function UserFeedbackPage() {
             name: "Q3 explanation",
             title: "Explain why",
             visibleIf: "{Q3} = true || {Q3} = false",
+            isRequired: true
           } ,{
             type: "boolean",
             name: "Q4",
@@ -61,6 +62,7 @@ function UserFeedbackPage() {
             name: "Q4 explanation",
             title: "Explain why",
             visibleIf: "{Q4} = true || {Q4} = false",
+            isRequired: true
           }, {
             type: "comment",
             name: "Q5",

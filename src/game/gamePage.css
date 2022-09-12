@@ -151,6 +151,11 @@
 
 }
 
+.robot-text {
+    font-size: 35px;
+    margin-top: 5px;
+}
+
 .spinner {
     width: 64px;
     height: 64px;

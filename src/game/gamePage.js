@@ -32,7 +32,7 @@ function GamePage() {
         // if (score % 3 === 0) {
         //     setHelpRequest(true);
         // }
-        if (score === 32) {
+        if (score === 41) {
             setHelpRequest(true);
         }
         if (score === 57) {
@@ -99,7 +99,7 @@ function GamePage() {
     const handleCLose = () => {
         setHelpRequest(false)
         setRobot("");
-        setImgSrc("radio-bot-animated.gif"); // todo: replace to stuck robot
+        setImgSrc("radio-bot-animated.gif"); // todo: replace to stuck robot?
     }
 
     /* Notify the server the game ended */
@@ -177,7 +177,7 @@ function GamePage() {
 
                                     </div>
                                     <div>
-                                        <span>{robotRunning}</span>
+                                        <div className={"robot-text"}> {robotRunning} </div>
                                         <img src={robotImgSrc} alt={"robot-pic"}/>
                                     </div>
 
