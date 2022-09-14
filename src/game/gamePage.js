@@ -42,7 +42,6 @@ function GamePage() {
         }
         if(score === 70){
             onCompleteGame();
-
         }
 
   }, [score]);

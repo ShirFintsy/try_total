@@ -108,7 +108,7 @@ function AwarenessQuiz() {
           setWrongAnswers([]);
         }, 2500);
       }
-       else if (timesFailed === 2) {
+      else if (timesFailed === 2) {
       websocket.send(JSON.stringify({"action": "failed-quiz", "answers": survey.data, "session": session}))
       surveyModel.clear();
       setOpenFailedModal(true);
