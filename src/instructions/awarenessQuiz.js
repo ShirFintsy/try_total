@@ -14,8 +14,8 @@ function AwarenessQuiz() {
   const correctAnswers = {
     "Q1": "You will get no payment",
     "Q2": "I can choose to help the robot (click 'Yes') or not (click 'No')",
-    "Q3": "The robot's current picture will be displayed after 30 seconds and I will need to classify it (dog or cat)," +
-        " then return to my own task",
+    "Q3": "The robot's current picture will be displayed after few seconds and I will need to classify it (dog or cat)," +
+        " then after few more seconds it return to my own task (about 30-40 seconds total)",
     "Q4": "Once I classify correctly 70 pictures"
   }
 
@@ -92,26 +92,31 @@ function AwarenessQuiz() {
     return JSON.stringify(answers) === JSON.stringify(correctAnswers);
   }
 
+  // const addTimesAsync = async () => {
+  //   setTimes(timesFailed + 1);
+  // }
+
   const onComplete = (survey, options) => {
     if (hasAnsweredCorrectly(survey.data)) {
       setPassed(true);
     } else {
       setTimes(timesFailed + 1);
       if (timesFailed !== 2) {
-             setFailed(true);
+        setFailed(true);
         setTimeout(() => {
           onCloseTryModel();
           setWrongAnswers([]);
         }, 2500);
       }
-
-    }
-    if (timesFailed === 2) {
+       else if (timesFailed === 2) {
       websocket.send(JSON.stringify({"action": "failed-quiz", "answers": survey.data, "session": session}))
       surveyModel.clear();
       setOpenFailedModal(true);
       setTimeout(throwOutFromExperiment, 8 * 1000);
     }
+
+    }
+
   }
 
   const onCloseFailedModal = () => setOpenFailedModal(false);

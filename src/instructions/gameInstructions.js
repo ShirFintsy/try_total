@@ -33,7 +33,8 @@ function GameInstructions() {
           picture. When this occurs, the robot might ask for your help. It is up to you to decide if you want to help
           the robot (while helping you cannot progress with your own classification task).<br/>
         <span style={{"fontWeight": "bold", "fontSize": "calc(1.2rem + .5vw)", "color": "red"}}> Notice! &nbsp;</span>
-        Once you decided to help, your task will be delayed for 30 seconds while the robot calculate the help request.<br/>
+        Helping the robot takes time as we need to save your current state and stream the robot's task instead (and then
+         switch back). We estimate this interruption to take around 30-40 seconds.<br/>
           You will not get score for identifying the robot's pictures.<br/>Once you finish correctly classifying 70
         pictures, we will ask for a short feedback.
       </p>

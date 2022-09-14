@@ -23,7 +23,9 @@ function GamePage() {
     const [clickedYes, addClickYes] = useState(0);
     const [robotImgSrc, setImgSrc] = useState("radio-bot-animated.gif");
     const [loading, setLoading] = useState(false);
-    const [loadingActivity, setLoadingAct] = useState("Reading Image...")
+    const [loadingActivity, setLoadingAct] = useState("");
+    const [robotAct, setRobotAct] = useState("Switching to robot's task")
+    const [firstLoading, setFirst] = useState(0);
 
     /**
      * Send a help request after getting 60 or 85 classifications or notify when game ended
@@ -32,7 +34,7 @@ function GamePage() {
         // if (score % 3 === 0) {
         //     setHelpRequest(true);
         // }
-        if (score === 41) {
+        if (score === 32) {
             setHelpRequest(true);
         }
         if (score === 57) {
@@ -40,23 +42,31 @@ function GamePage() {
         }
         if(score === 70){
             onCompleteGame();
+
         }
 
   }, [score]);
 
     useEffect(() => {
+        let seconds;
+        if (firstLoading === 1) { seconds = 15; }
+        else if (firstLoading === 2) { seconds = 20; }
         if (loading) {
-            setTimeout(() => setLoadingAct("action2"), 5000);
-            setTimeout(() => setLoadingAct("action3"), 10000);
-            setTimeout(() => setLoadingAct("action4"), 15000);
+            for (let i=0; i<seconds; i++)
+            setTimeout(() => setLoadingAct((seconds - i).toString()), 1000 * (i + 1));
         }
-    }, [loading])
+        setTimeout(() => {
+            if (firstLoading === 1){
+                setRobotAct("Switching back to your task");
+                setLoadingAct("");
+            }
+            else if (firstLoading === 2){
+                setRobotAct("Switching to the robot's task");
+                setLoadingAct("");
+            }
+        }, (seconds + 1) * 1000);
+    }, [firstLoading])
 
-    // useEffect(() => {
-    //     if(score === 100){
-    //         onCompleteGame();
-    //     }
-    // }, [score]);
 
     const [play_right_sound] = useSound('/sounds/right.mp3');
     const [play_wrong_sound] = useSound('/sounds/wrong.mp3')
@@ -111,8 +121,10 @@ function GamePage() {
     const afterHelp = () => {
         return new Promise(() => {
             setRobot("Thank You!")
-
-            setTimeout(() => setRobot("Robot is currently classifying pictures"), 5000);
+            setTimeout(() => setRobot("Robot is currently classifying pictures"), 21000);
+            setLoading(true);
+            setFirst(2);
+            setTimeout(() => {setLoading(false)}, 21000);
         })
     }
 
@@ -146,7 +158,8 @@ function GamePage() {
             //setImgSrc("");
             addClickYes(clickedYes + 1);
             setLoading(true);
-            setTimeout(() => {setLoading(false)}, 30000);
+            setFirst(1);
+            setTimeout(() => {setLoading(false)}, 16000);
             websocket.send(JSON.stringify({"action": "get-bot-image", "session": session})); //maybe sync?
     }
 
@@ -190,8 +203,9 @@ function GamePage() {
                                 {loading ?
                                     <div className="loader-container">
                                         <div className={"list"}>
-                                            <ul><div className="spinner"></div></ul>
-                                        <ul>{loadingActivity}</ul> {/*todo: the assigment from dudi*/}
+                                            <ul className={"list-spinner"}><div className="spinner"></div></ul>
+                                            <ul>{robotAct}</ul>
+                                            <ul className={"list-text"}>{loadingActivity}</ul>
                                         </div>
                                     </div> :
                                 <div>
