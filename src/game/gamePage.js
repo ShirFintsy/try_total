@@ -108,7 +108,7 @@ function GamePage() {
     const handleCLose = () => {
         setHelpRequest(false)
         setRobot("");
-        setImgSrc("radio-bot-animated.gif"); // todo: replace to stuck robot?
+        setImgSrc("radio-bot-animated.gif");
     }
 
     /* Notify the server the game ended */
@@ -176,7 +176,7 @@ function GamePage() {
                                             <Modal.Header closeButton>
                                                 <Modal.Title>The robot needs help </Modal.Title>
                                             </Modal.Header>
-                                            <Modal.Body>I can't identify my image. Can you welp me </Modal.Body>
+                                            <Modal.Body>I can't identify my image. Can you help me </Modal.Body>
                                             <Modal.Footer>
                                                 <Button variant="secondary" onClick={handleCLose}>
                                                     No

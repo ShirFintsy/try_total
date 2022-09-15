@@ -12,11 +12,12 @@ function AwarenessQuiz() {
   const {session,} = useContext(SessionContext);
 
   const correctAnswers = {
-    "Q1": "You will get no payment",
+    "Q1": "I will get no payment",
     "Q2": "I can choose to help the robot (click 'Yes') or not (click 'No')",
-    "Q3": "The robot's current picture will be displayed after few seconds and I will need to classify it (dog or cat)," +
-        " then after few more seconds it return to my own task (about 30-40 seconds total)",
-    "Q4": "Once I classify correctly 70 pictures"
+    "Q3": "The robot's current picture will be loaded and I will need to classify it (dog or cat)," +
+        " and then my own task will be loaded back so I can complete it (about 30-40 seconds delay experienced)",
+    "Q4": "Once I classify correctly 70 pictures",
+    "Q5": "Once I complete 70 correct classifications and then answered the feedback questions"
   }
 
   const quizDef = {
@@ -28,9 +29,9 @@ function AwarenessQuiz() {
         isRequired: true,
         hasNone: false,
         choices: [
-          "You will get full payment",
+          "I will get full payment",
           correctAnswers.Q1,
-          "You will get payment achieved till the point you left"
+          "I will get payment achieved till the point you left"
         ]
       }, {
         type: "radiogroup",
@@ -52,7 +53,7 @@ function AwarenessQuiz() {
         choices: [
           correctAnswers.Q3,
           "I'll need to replace the robot in its task for good",
-          "It will skip to my next picture after 30 seconds",
+          "The system will skip to my next picture after 30 seconds",
         ]
       }, {
         type: "radiogroup",
@@ -64,6 +65,17 @@ function AwarenessQuiz() {
           correctAnswers.Q4,
           "When I help the robot",
           "Once the robot finishes its own task",
+        ]
+      }, {
+      type: "radiogroup",
+        name: "Q5",
+        title: "When can you leave the HIT?",
+        isRequired: true,
+        hasNone: false,
+        choices: [
+          "When I complete 70 successful classifications",
+          "When the robot decides I classified enough images",
+            correctAnswers.Q5,
         ]
       }
     ]
@@ -88,6 +100,9 @@ function AwarenessQuiz() {
     }
     if (JSON.stringify(answers.Q4) !== JSON.stringify(correctAnswers.Q4)) {
       setWrongAnswers( arr => [...arr, 4]);
+    }
+    if (JSON.stringify(answers.Q5) !== JSON.stringify(correctAnswers.Q5)) {
+      setWrongAnswers( arr => [...arr, 5]);
     }
     return JSON.stringify(answers) === JSON.stringify(correctAnswers);
   }
@@ -129,7 +144,7 @@ function AwarenessQuiz() {
         !passed ?
           <div className={"quiz-div"}>
             <div style={{"marginBottom": "20px", "color": "#6d707c", "fontWeight": "bold", "fontSize": "large"}}>
-              To make sure you understand the task, please answer the following four questions.<br/>
+              To make sure you understand the task, please answer the following five questions.<br/>
               <span style={{"color": "red"}}> You must answer all the questions correctly. You have 3 tries to succeed</span>,
               otherwise you will be disqualified and won't get paid. <br/>Go back to the tutorial if you need a
               reminder!<br/>
