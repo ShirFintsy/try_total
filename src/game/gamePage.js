@@ -26,6 +26,8 @@ function GamePage() {
     const [loadingActivity, setLoadingAct] = useState("");
     const [robotAct, setRobotAct] = useState("Switching to robot's task")
     const [firstLoading, setFirst] = useState(0);
+    const [firstHelp, setFirstHelp] = useState(true);
+    const [helpedOnFirst, setHelpedOnFirst] = useState(false);
 
     /**
      * Send a help request after getting 60 or 85 classifications or notify when game ended
@@ -106,6 +108,9 @@ function GamePage() {
     }
 
     const handleCLose = () => {
+        if (firstHelp) { // this is the first help request
+            setFirstHelp(false);
+        }
         setHelpRequest(false)
         setRobot("");
         setImgSrc("radio-bot-animated.gif");
@@ -113,7 +118,7 @@ function GamePage() {
 
     /* Notify the server the game ended */
     const onCompleteGame = () => {
-        websocket.send(JSON.stringify({"action": "complete-game", "session": session}));
+        websocket.send(JSON.stringify({"action": "complete-game", "firstHelp": helpedOnFirst, "session": session}));
         setCompleteGame(true);
     };
 
@@ -151,15 +156,18 @@ function GamePage() {
 
 
     const onHelpAnswer = () => {
-            setHelpRequest(false);
-            setQuiz(true);
-            setRobot("");
-            //setImgSrc("");
-            addClickYes(clickedYes + 1);
-            setLoading(true);
-            setFirst(1);
-            setTimeout(() => {setLoading(false)}, 16000);
-            websocket.send(JSON.stringify({"action": "get-bot-image", "session": session})); //maybe sync?
+        if(firstHelp) { //this is the first help request
+            setFirstHelp(false);
+            setHelpedOnFirst(true);
+        }
+        setHelpRequest(false);
+        setQuiz(true);
+        setRobot("");
+        addClickYes(clickedYes + 1);
+        setLoading(true);
+        setFirst(1);
+        setTimeout(() => {setLoading(false)}, 16000);
+        websocket.send(JSON.stringify({"action": "get-bot-image", "session": session})); //maybe sync?
     }
 
     return (
