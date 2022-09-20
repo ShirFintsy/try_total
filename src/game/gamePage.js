@@ -26,22 +26,20 @@ function GamePage() {
     const [loadingActivity, setLoadingAct] = useState("");
     const [robotAct, setRobotAct] = useState("Switching to robot's task")
     const [firstLoading, setFirst] = useState(0);
-    const [firstHelp, setFirstHelp] = useState(true);
-    const [helpedOnFirst, setHelpedOnFirst] = useState(false);
+    const [helpsArray, setHelpArray] = useState([]);
+    // const [firstHelp, setFirstHelp] = useState(true);
+    // const [helpedOnFirst, setHelpedOnFirst] = useState(false);
 
     /**
      * Send a help request after getting 60 or 85 classifications or notify when game ended
      */
     useEffect(() => {
-        // if (score % 3 === 0) {
+        if (score === 12 || score === 33 || score === 40 || score === 59) {
+            setHelpRequest(true);
+        }
+        // if (score === 57) {
         //     setHelpRequest(true);
         // }
-        if (score === 32) {
-            setHelpRequest(true);
-        }
-        if (score === 57) {
-            setHelpRequest(true);
-        }
         if(score === 70){
             onCompleteGame();
         }
@@ -108,9 +106,9 @@ function GamePage() {
     }
 
     const handleCLose = () => {
-        if (firstHelp) { // this is the first help request
-            setFirstHelp(false);
-        }
+        // if (firstHelp) { // this is the first help request
+        //     setFirstHelp(false);
+        // }
         setHelpRequest(false)
         setRobot("");
         setImgSrc("radio-bot-animated.gif");
@@ -118,7 +116,7 @@ function GamePage() {
 
     /* Notify the server the game ended */
     const onCompleteGame = () => {
-        websocket.send(JSON.stringify({"action": "complete-game", "firstHelp": helpedOnFirst, "session": session}));
+        websocket.send(JSON.stringify({"action": "complete-game", "help-array": helpsArray,"session": session}));
         setCompleteGame(true);
     };
 
@@ -156,10 +154,11 @@ function GamePage() {
 
 
     const onHelpAnswer = () => {
-        if(firstHelp) { //this is the first help request
-            setFirstHelp(false);
-            setHelpedOnFirst(true);
-        }
+        if (score === 12) {setHelpArray(oldArray => [...oldArray, 1]);}
+        if (score === 33) {setHelpArray(oldArray => [...oldArray, 2]);}
+        if (score === 40) {setHelpArray(oldArray => [...oldArray, 3]);}
+        if (score === 59) {setHelpArray(oldArray => [...oldArray, 4]);}
+            //if (score === 12 || score === 33 || score === 40 || score === 59) {
         setHelpRequest(false);
         setQuiz(true);
         setRobot("");
