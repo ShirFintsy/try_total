@@ -1,4 +1,4 @@
 {
-  "SERVER_IP": "localhost",
+  "SERVER_IP": "robot-ask-help-hit.koreacentral.cloudapp.azure.com",
   "WEB_SOCKET_PORT": 8080
 }
