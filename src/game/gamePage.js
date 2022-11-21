@@ -34,7 +34,7 @@ function GamePage() {
      * Send a help request after getting 60 or 85 classifications or notify when game ended
      */
     useEffect(() => {
-        if (score === 12 || score === 33 || score === 40 || score === 59) {
+        if (score === 29 || score === 45) {
             setHelpRequest(true);
         }
         // if (score === 57) {
@@ -154,10 +154,8 @@ function GamePage() {
 
 
     const onHelpAnswer = () => {
-        if (score === 12) {setHelpArray(oldArray => [...oldArray, 1]);}
-        if (score === 33) {setHelpArray(oldArray => [...oldArray, 2]);}
-        if (score === 40) {setHelpArray(oldArray => [...oldArray, 3]);}
-        if (score === 59) {setHelpArray(oldArray => [...oldArray, 4]);}
+        if (score === 29) {setHelpArray(oldArray => [...oldArray, 1]);}
+        if (score === 45) {setHelpArray(oldArray => [...oldArray, 2]);}
             //if (score === 12 || score === 33 || score === 40 || score === 59) {
         setHelpRequest(false);
         setQuiz(true);
@@ -197,7 +195,7 @@ function GamePage() {
                                     </div>
                                     <div>
                                         <div className={"robot-text"}> {robotRunning} </div>
-                                        <img src={robotImgSrc} alt={"robot-pic"}/>
+                                        <img src={robotImgSrc} alt={"robot-pic"} className={"robot-img"}/>
                                     </div>
 
                                 </div>

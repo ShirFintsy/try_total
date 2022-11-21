@@ -162,6 +162,11 @@
     margin-top: 5px;
 }
 
+.robot-img {
+    width: 300px;
+    height: auto;
+}
+
 .spinner {
     width: 64px;
     height: 64px;
